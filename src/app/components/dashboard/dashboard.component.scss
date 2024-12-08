@@ -1,1 +1,22 @@
 
+.page-container{
+  display:flex;
+  flex-direction:row;
+
+}
+
+.active-project {
+  .project-image{
+    height: 150px;
+    width: 250px;
+    border: 1px solid black;
+  }
+
+}
+.active-project::after {
+  content:' ';
+  width: 90%;
+  border-bottom: 1px solid black;
+  display:inline-block;
+
+}

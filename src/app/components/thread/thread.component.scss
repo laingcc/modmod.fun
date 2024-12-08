@@ -1,0 +1,14 @@
+.thread-container {
+  display:flex;
+  flex-direction:column;
+
+  .thread-item{
+    padding: 20px;
+    border: 1px solid black;
+    margin: 10px;
+  }
+
+  .comment{
+    margin-left: 40px;
+  }
+}

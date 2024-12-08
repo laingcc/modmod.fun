@@ -1,0 +1,10 @@
+<div class="thread-container">
+  <div class="thread-item thread-description">
+    {{threadData?.description}}
+  </div>
+  <div class="thread-item comment" *ngFor="let comment of threadData?.comments">
+    <app-comment
+      [Comment]="comment"
+    ></app-comment>
+  </div>
+</div>
