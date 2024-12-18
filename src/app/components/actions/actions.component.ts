@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-actions',
@@ -8,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './actions.component.scss'
 })
 export class ActionsComponent {
+
+  constructor(
+    private dialog: MatDialog
+  ) {
+  }
 
 }

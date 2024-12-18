@@ -1,0 +1,11 @@
+<div class="projects-container">
+  <div class="project" *ngFor="let project of projects">
+    <div class="project-container" (click)="navigate(project.id)">
+      <div class="project-image">
+        <img src="https://via.placeholder.com/250x150" alt="Project Image">
+      </div>
+      <h3 class="project-name">{{project.name}}</h3>
+      <p class="author"><span class="attribution">By: </span>{{project.author}}</p>
+    </div>
+  </div>
+</div>

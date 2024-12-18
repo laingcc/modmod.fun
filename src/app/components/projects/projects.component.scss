@@ -1,0 +1,38 @@
+.projects-container {
+  padding: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+
+  .project-container{
+    max-width: min-content;
+    padding: 26px;
+
+    .project-name{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 250px;
+    }
+
+  }
+
+  .project-container:hover {
+    padding: 25px;
+    border: 1px solid lightgrey;
+  }
+
+
+  .project {
+    margin: 25px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .project-image{
+    height: 150px;
+    width: 250px;
+    border: 1px solid black;
+  }
+}
