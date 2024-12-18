@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+import {ReplyModalComponent} from "../reply-modal/reply-modal.component";
 
 @Component({
   selector: 'app-actions',
@@ -14,5 +15,7 @@ export class ActionsComponent {
     private dialog: MatDialog
   ) {
   }
-
+  reply() {
+      this.dialog.open(ReplyModalComponent);
+    }
 }

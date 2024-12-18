@@ -35,6 +35,7 @@ export class ThreadService {
           content: lorem.generateParagraphs(1),
           date: new Date(),
           id: Math.floor(Math.random()*999999),
+          feverCount: Math.floor(Math.random()*100)
         }
       })
 

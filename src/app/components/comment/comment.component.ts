@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {JsonPipe} from "@angular/common";
+import {JsonPipe, NgIf} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
 
 
@@ -8,19 +8,26 @@ export type ThreadComment = {
   content: string,
   date: Date,
   id: number
+  feverCount: number
 }
 
 @Component({
   selector: 'app-comment',
   standalone: true,
   imports: [
-    JsonPipe,
-    ActionsComponent
+    ActionsComponent,
+    NgIf
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'
 })
 export class CommentComponent {
-  @Input() Comment: ThreadComment | undefined
+  @Input() Comment: ThreadComment = {
+    author: '',
+    content: '',
+    date: new Date(),
+    id: 0,
+    feverCount: 0
+  }
 
 }
