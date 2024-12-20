@@ -1,0 +1,25 @@
+<div class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <h2>Create Thread</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" [(ngModel)]="thread.title" name="title" required>
+      </div>
+      <div>
+        <label for="author">Author:</label>
+        <input type="text" id="author" [(ngModel)]="thread.author" name="author" required>
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" [(ngModel)]="thread.date" name="date" required>
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" [(ngModel)]="thread.description" name="description" required></textarea>
+      </div>
+      <button type="submit">Create</button>
+    </form>
+  </div>
+</div>

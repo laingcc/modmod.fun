@@ -1,32 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LoremIpsum} from "lorem-ipsum";
 import {Thread, ThreadService} from "../../services/thread.service";
 import {CommentComponent} from "../comment/comment.component";
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf} from "@angular/common";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-thread',
   standalone: true,
   imports: [
     CommentComponent,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   providers:[ThreadService],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss'
 })
-export class ThreadComponent implements OnInit {
+export class ThreadComponent{
 
-  protected threadData: Thread | undefined
+  @Input() threadData: Observable<any>
 
   constructor(
     private threadService: ThreadService
   ) {
   }
-
-  ngOnInit() {
-    this.threadData = this.threadService.getThread()
-  }
-
 
 }

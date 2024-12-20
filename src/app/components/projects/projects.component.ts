@@ -2,13 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {Project, ProjectService} from "../../services/project.service";
 import {NgForOf} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
 
 @Component({
   selector: 'app-projects',
   standalone: true,
   imports: [
     NgForOf,
-    RouterModule
+    RouterModule,
   ],
   providers: [ProjectService],
   templateUrl: './projects.component.html',
@@ -20,6 +22,7 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private router: Router,
+    private matDialog: MatDialog
   ) {
   }
 
@@ -32,4 +35,7 @@ export class ProjectsComponent implements OnInit {
   }
 
 
+  addProject() {
+    this.matDialog.open(CreateThreadModalComponent);
+  }
 }

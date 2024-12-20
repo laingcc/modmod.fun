@@ -1,4 +1,5 @@
 <div class="projects-container">
+  <p (click)="addProject()">Add Project</p>
   <div class="project" *ngFor="let project of projects">
     <div class="project-container" (click)="navigate(project.id)">
       <div class="project-image">
