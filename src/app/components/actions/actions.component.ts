@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {ReplyModalComponent} from "../reply-modal/reply-modal.component";
+import {ThreadComment} from "../comment/comment.component";
 
 @Component({
   selector: 'app-actions',
@@ -11,11 +12,17 @@ import {ReplyModalComponent} from "../reply-modal/reply-modal.component";
 })
 export class ActionsComponent {
 
+  @Output() Comment = new EventEmitter<ThreadComment>()
   constructor(
     private dialog: MatDialog
   ) {
   }
   reply() {
-      this.dialog.open(ReplyModalComponent);
-    }
+    this.dialog.open(ReplyModalComponent).afterClosed().subscribe((comment: ThreadComment) => {
+        if (comment) {
+          this.Comment.emit(comment)
+        }
+      }
+    )
+  }
 }

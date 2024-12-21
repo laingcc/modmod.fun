@@ -1,6 +1,7 @@
 .thread-container {
   display:flex;
   flex-direction:column;
+  flex: 1 1 0;
 
   .thread-item{
     padding: 20px;

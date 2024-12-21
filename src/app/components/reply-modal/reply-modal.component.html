@@ -1,8 +1,10 @@
 <div class="modal">
   <div class="modal-content">
     <h2>Reply</h2>
-    <textarea placeholder="Enter your comment"></textarea>
-    <button (click)="sendComment()">Send</button>
+    <form [formGroup]="form" (ngSubmit)="sendComment()"><textarea id='content' formControlName="content" placeholder="Enter your comment" required></textarea>
+    <input type="text" formControlName='author' id="author" placeholder="Tripcode Password" required>
+    <button type="submit">Send</button>
+  </form>
   </div>
 </div>
 

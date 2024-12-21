@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Project, ProjectService} from "../../services/project.service";
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-projects',
@@ -11,6 +12,8 @@ import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-m
   imports: [
     NgForOf,
     RouterModule,
+    AsyncPipe,
+    SlicePipe,
   ],
   providers: [ProjectService],
   templateUrl: './projects.component.html',
@@ -18,7 +21,7 @@ import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-m
 })
 export class ProjectsComponent implements OnInit {
 
-  projects: Project[];
+  projects$: Observable<Project[]>;
   constructor(
     private projectService: ProjectService,
     private router: Router,
@@ -27,7 +30,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projects = this.projectService.getAllProjects()
+    this.projects$ = this.projectService.getAllProjects()
   }
 
   navigate(id:number){

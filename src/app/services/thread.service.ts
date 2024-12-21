@@ -67,4 +67,7 @@ export class ThreadService {
   updateThread(threadId: number, thread: Thread): Observable<Thread> {
     return this.http.put<Thread>(`${this.environmentService.apiHost}/threads/${threadId}`, thread);
   }
+  addComment(threadId: number, comment: ThreadComment): Observable<ThreadComment> {
+  return this.http.post<ThreadComment>(`${this.environmentService.apiHost}/threads/${threadId}/comments`, comment);
+}
 }

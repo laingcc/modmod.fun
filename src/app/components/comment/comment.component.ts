@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {JsonPipe, NgIf} from "@angular/common";
+import {JsonPipe, NgIf, SlicePipe} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
 
 
@@ -16,7 +16,8 @@ export type ThreadComment = {
   standalone: true,
   imports: [
     ActionsComponent,
-    NgIf
+    NgIf,
+    SlicePipe
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'

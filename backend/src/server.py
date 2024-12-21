@@ -38,7 +38,13 @@ def get_threads():
     cursor.execute('SELECT * FROM threads')
     threads = cursor.fetchall()
     conn.close()
-    return jsonify(threads)
+    return jsonify([{
+        'id': t[0],
+        'title': t[1],
+        'author': t[2],
+        'date': t[3],
+        'description': t[4]
+    } for t in threads])
 
 @app.route('/threads/<int:thread_id>', methods=['GET'])
 def get_thread(thread_id):
@@ -55,7 +61,13 @@ def get_thread(thread_id):
         'author': thread[2],
         'date': thread[3],
         'description': thread[4],
-        'comments': comments})
+        'comments': [{
+            'id': c[0],
+            'author': c[1],
+            'content': c[2],
+            'date': c[3],
+            'feverCount': c[4]
+        } for c in comments]})
 
 @app.route('/threads', methods=['POST'])
 def create_thread():

@@ -1,10 +1,14 @@
 <div class="thread-container">
   <div class="thread-item thread-description">
     {{(threadData | async)?.description}}
+    <app-actions
+      (Comment)="onComment($event)">
+
+    </app-actions>
   </div>
-<!--  <div class="thread-item comment" *ngFor="let comment of threadData.comments">-->
-<!--    <app-comment-->
-<!--      [Comment]="comment"-->
-<!--    ></app-comment>-->
-<!--  </div>-->
+  <div class="thread-item comment" *ngFor="let comment of ((threadData | async)?.comments ?? [])">
+    <app-comment
+      [Comment]="comment"
+    ></app-comment>
+  </div>
 </div>

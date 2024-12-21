@@ -1,6 +1,6 @@
 <div class="comment-container">
   <div class="header">
-    <span class="author">{{Comment.author}}</span> <span class="number">No.{{Comment.id}}</span>
+    <span class="author">{{Comment.author | slice:0:10}}</span> <span class="number">No.{{Comment.id}}</span>
     <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
   </div>
   <div class="comment-content">

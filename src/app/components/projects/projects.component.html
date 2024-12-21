@@ -1,12 +1,12 @@
 <div class="projects-container">
-  <p (click)="addProject()">Add Project</p>
-  <div class="project" *ngFor="let project of projects">
+  <div class="project" *ngFor="let project of (projects$ | async)">
     <div class="project-container" (click)="navigate(project.id)">
       <div class="project-image">
         <img src="https://via.placeholder.com/250x150" alt="Project Image">
       </div>
-      <h3 class="project-name">{{project.name}}</h3>
-      <p class="author"><span class="attribution">By: </span>{{project.author}}</p>
+      <h3 class="project-name">{{project.title}}</h3>
+      <p class="author"><span class="attribution">By: </span>{{project.author | slice:0:10}}</p>
     </div>
   </div>
 </div>
+<p (click)="addProject()">Add Project</p>
