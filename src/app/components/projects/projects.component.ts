@@ -4,8 +4,10 @@ import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
-import {Observable} from "rxjs";
+import {Observable, take, takeUntil} from "rxjs";
 import {HeadsUpBannerComponent} from "../heads-up-banner/heads-up-banner.component";
+import {ThreadService} from "../../services/thread.service";
+import {Destroyable} from "../base/destroyable/destroyable.component";
 
 @Component({
   selector: 'app-projects',
@@ -21,14 +23,16 @@ import {HeadsUpBannerComponent} from "../heads-up-banner/heads-up-banner.compone
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent extends Destroyable implements OnInit {
 
   projects$: Observable<Project[]>;
   constructor(
     private projectService: ProjectService,
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private threadService: ThreadService
   ) {
+    super();
   }
 
   ngOnInit() {
@@ -41,6 +45,15 @@ export class ProjectsComponent implements OnInit {
 
 
   addProject() {
-    this.matDialog.open(CreateThreadModalComponent);
+    this.matDialog.open(CreateThreadModalComponent).afterClosed().subscribe((newThread) => {
+      console.log(newThread)
+      if (newThread){
+        this.threadService.createThread(newThread).subscribe(response => {
+          console.log('lmao')
+        });
+      }
+      //wait a bit, and then maybe route to the new project?
+
+    });
   }
 }

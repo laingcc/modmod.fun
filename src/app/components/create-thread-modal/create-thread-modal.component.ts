@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ThreadService, Thread } from '../../services/thread.service';
 import {FormsModule, NgForm} from '@angular/forms';
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-create-thread-modal',
@@ -21,12 +22,14 @@ export class CreateThreadModalComponent {
     comments: []
   };
 
-  constructor(private threadService: ThreadService) {}
+  constructor(
+    private threadService: ThreadService,
+    private dialogRef: MatDialogRef<CreateThreadModalComponent>
+  ) {}
 
   onSubmit() {
-    this.threadService.createThread(this.thread).subscribe(response => {
-      console.log('Thread created:', response);
-      // Close the modal or reset the form as needed
-    });
+
+    this.dialogRef.close(this.thread);
+
   }
 }
