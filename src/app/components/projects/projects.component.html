@@ -1,3 +1,5 @@
+<app-heads-up-banner></app-heads-up-banner>
+<div class="add-project-bar"> <p (click)="addProject()">Add Your Project Now</p> </div>
 <div class="projects-container">
   <div class="project" *ngFor="let project of (projects$ | async)">
     <div class="project-container" (click)="navigate(project.id)">
@@ -9,4 +11,4 @@
     </div>
   </div>
 </div>
-<p (click)="addProject()">Add Project</p>
+

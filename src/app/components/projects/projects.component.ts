@@ -5,6 +5,7 @@ import {Router, RouterModule} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
 import {Observable} from "rxjs";
+import {HeadsUpBannerComponent} from "../heads-up-banner/heads-up-banner.component";
 
 @Component({
   selector: 'app-projects',
@@ -14,6 +15,7 @@ import {Observable} from "rxjs";
     RouterModule,
     AsyncPipe,
     SlicePipe,
+    HeadsUpBannerComponent,
   ],
   providers: [ProjectService],
   templateUrl: './projects.component.html',
