@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify
 import sqlite3
 
-from server_utils.server_utils import get_tripcode
-from configs import *
-
 app = Flask(__name__)
 
 def init_db():

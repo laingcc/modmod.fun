@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ThreadComponent} from "../thread/thread.component";
-import {ThreadService} from "../../services/thread.service";
-import {Observable} from "rxjs";
+import {Thread, ThreadService} from "../../services/thread.service";
+import {Observable, takeUntil} from "rxjs";
 import {AsyncPipe, SlicePipe} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ThreadComment} from "../comment/comment.component";
+import {Title} from "@angular/platform-browser";
+import {Destroyable} from "../base/destroyable/destroyable.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -17,20 +19,26 @@ import {ThreadComment} from "../comment/comment.component";
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends Destroyable implements OnInit {
 
-  threadData: Observable<any>
+  threadData: Observable<Thread>
   id: number;
   constructor(
     private activatedRoute: ActivatedRoute,
-    private threadService: ThreadService
+    private threadService: ThreadService,
+    private titleService: Title
   ) {
+    super()
   }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
       this.id = +(params.get('id') ?? -1);
       this.threadData = this.threadService.getThread(this.id);
+    })
+
+    this.threadData.pipe(takeUntil(this.unsubscribe$)).subscribe(thread => {
+      this.titleService.setTitle(thread.title ?? 'Thread')
     })
   }
 

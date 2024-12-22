@@ -5,7 +5,7 @@
         <img src="https://via.placeholder.com/250x150" alt="Project Image">
       </div>
       <h3>{{ (threadData|async)?.title }}</h3>
-      <p class="author"><span class="attribution">By:</span> {{ (threadData|async).author | slice:0:10 }}</p>
+      <p class="author"><span class="attribution">By:</span> {{ (threadData|async)?.author | slice:0:10 }}</p>
     </div>
   </div>
   <div class="main-column-layout">

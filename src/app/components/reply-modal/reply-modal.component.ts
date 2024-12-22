@@ -20,8 +20,8 @@ export class ReplyModalComponent {
     private builder: FormBuilder
   ) {
     this.form = this.builder.group({
-      content: ['content', Validators.required],
-      author: ['author', Validators.required]
+      content: ['', Validators.required],
+      author: ['', Validators.required]
     });
   }
 
