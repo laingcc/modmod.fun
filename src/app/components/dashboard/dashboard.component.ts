@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ThreadComponent} from "../thread/thread.component";
 import {Thread, ThreadService} from "../../services/thread.service";
-import {Observable, takeUntil} from "rxjs";
-import {AsyncPipe, SlicePipe} from "@angular/common";
+import {debounceTime, Observable, ReplaySubject, takeUntil} from "rxjs";
+import {AsyncPipe, NgIf, SlicePipe} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ThreadComment} from "../comment/comment.component";
 import {Title} from "@angular/platform-browser";
@@ -14,15 +14,17 @@ import {Destroyable} from "../base/destroyable/destroyable.component";
   imports: [
     ThreadComponent,
     AsyncPipe,
-    SlicePipe
+    SlicePipe,
+    NgIf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent extends Destroyable implements OnInit {
 
-  threadData: Observable<Thread>
+  threadData = new ReplaySubject<Thread>(1)
   id: number;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private threadService: ThreadService,
@@ -32,13 +34,17 @@ export class DashboardComponent extends Destroyable implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(params => {
+    this.activatedRoute.paramMap.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(params => {
+      console.log("fired")
       this.id = +(params.get('id') ?? -1);
-      this.threadData = this.threadService.getThread(this.id);
-    })
-
-    this.threadData.pipe(takeUntil(this.unsubscribe$)).subscribe(thread => {
-      this.titleService.setTitle(thread.title ?? 'Thread')
+      this.threadService.getThread(this.id).pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(thread => {
+        this.threadData.next(thread)
+        this.titleService.setTitle(thread.title ?? 'Thread')
+      });
     })
   }
 

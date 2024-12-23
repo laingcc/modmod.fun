@@ -31,4 +31,15 @@ export class CommentComponent {
     feverCount: 0
   }
 
+  @Input() isOp: boolean = false;
+
+  getColorForAuthor(authorHash: string){
+    let color = ''
+    for(let i = 0; color.length < 6; i++){
+      color = color.concat(authorHash.charCodeAt(i).toString(16))
+    }
+    return `#${color}`
+
+}
+
 }

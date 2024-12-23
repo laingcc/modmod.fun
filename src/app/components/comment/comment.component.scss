@@ -17,7 +17,15 @@
   }
   .number{
     justify-self: end;
-
+  }
+  .author{
+    font-size: 0.8em;
+    border-radius: 50px;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+  .OP{
+    font-weight: bold;
   }
 }
 .fever-count {

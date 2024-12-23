@@ -9,7 +9,7 @@ def init_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS comments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            author TEXT NOT NULL,
+            author TEXT NOT NULL REFERENCES users(tripcode),
             content TEXT NOT NULL,
             date TEXT NOT NULL,
             feverCount INTEGER NOT NULL,
@@ -20,9 +20,17 @@ def init_db():
         CREATE TABLE IF NOT EXISTS threads (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            author TEXT NOT NULL,
+            author TEXT NOT NULL REFERENCES users(tripcode),
             date TEXT NOT NULL,
             description TEXT NOT NULL
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tripcode TEXT NOT NULL,
+            email TEXT NOT NULL,
+            friendlyname TEXT NOT NULL
         )
     ''')
     conn.commit()
@@ -31,6 +39,7 @@ def init_db():
 # Feature Imports
 import comments
 import threads
+import users
 
 if __name__ == '__main__':
     init_db()

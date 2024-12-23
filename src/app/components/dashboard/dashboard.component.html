@@ -1,11 +1,11 @@
 <div class="page-container">
   <div class="left-column-layout">
-    <div class="active-project">
+    <div class="active-project" *ngIf="(threadData|async) as thread">
       <div class="project-image">
         <img src="https://via.placeholder.com/250x150" alt="Project Image">
       </div>
-      <h3>{{ (threadData|async)?.title }}</h3>
-      <p class="author"><span class="attribution">By:</span> {{ (threadData|async)?.author | slice:0:10 }}</p>
+      <h3>{{ thread?.title }}</h3>
+      <p class="author"><span class="attribution">By:</span> {{ thread?.author | slice:0:10 }}</p>
     </div>
   </div>
   <div class="main-column-layout">

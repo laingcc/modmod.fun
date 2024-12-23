@@ -9,6 +9,7 @@
   <div class="thread-item comment" *ngFor="let comment of ((threadData | async)?.comments ?? [])">
     <app-comment
       [Comment]="comment"
+      [isOp] = 'comment.author === (threadData | async)?.author'
     ></app-comment>
   </div>
 </div>
