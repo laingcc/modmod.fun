@@ -52,6 +52,7 @@ def create_thread():
   cursor.execute('INSERT INTO threads (title, author, date, description) VALUES (?, ?, ?, ?)',
                  (new_thread['title'],get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description']))
   conn.commit()
+  new_thread['id'] = cursor.lastrowid
   conn.close()
   return jsonify(new_thread), 201
 

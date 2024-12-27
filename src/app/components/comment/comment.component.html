@@ -1,9 +1,10 @@
 <div class="comment-container">
   <div class="header">
-    <span class="author" [class.OP]="isOp" [style.background-color]="getColorForAuthor(Comment.author)">
-      <span class="original-poster" *ngIf="isOp"> ~~ OP ~~ </span>
-      {{Comment.author | slice:0:10}}
-    </span>
+  <app-tripcode-pill
+  [isOp] = isOp
+  [author]="Comment.author"
+  >
+  </app-tripcode-pill>
     <span class="number">No.{{Comment.id}}</span>
     <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
   </div>

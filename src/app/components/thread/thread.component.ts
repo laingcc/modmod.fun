@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoremIpsum} from "lorem-ipsum";
 import {Thread, ThreadService} from "../../services/thread.service";
 import {CommentComponent, ThreadComment} from "../comment/comment.component";
@@ -24,12 +24,14 @@ export class ThreadComponent{
   @Input() threadData: Observable<any>
   @Input() threadId: number;
 
+  @Output() Comment = new EventEmitter<ThreadComment>()
+
   constructor(
     private threadService: ThreadService
   ) {
   }
 
   onComment(comment: ThreadComment){
-    this.threadService.addComment(this.threadId, comment).subscribe(t => console.log('added'))
+    this.Comment.emit(comment)
   }
 }

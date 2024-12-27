@@ -1,0 +1,4 @@
+<span class="author" [class.OP]="isOp" [style.background-color]="getColorForAuthor(author)">
+      <span class="original-poster" *ngIf="isOp"> ~~ OP ~~ </span>
+  {{author | slice:0:10}}
+    </span>

@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ThreadComponent} from "../thread/thread.component";
 import {Thread, ThreadService} from "../../services/thread.service";
-import {debounceTime, Observable, ReplaySubject, takeUntil} from "rxjs";
+import {ReplaySubject, take, takeUntil} from "rxjs";
 import {AsyncPipe, NgIf, SlicePipe} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ThreadComment} from "../comment/comment.component";
 import {Title} from "@angular/platform-browser";
 import {Destroyable} from "../base/destroyable/destroyable.component";
+import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,8 @@ import {Destroyable} from "../base/destroyable/destroyable.component";
     ThreadComponent,
     AsyncPipe,
     SlicePipe,
-    NgIf
+    NgIf,
+    TripcodePillComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -48,9 +50,14 @@ export class DashboardComponent extends Destroyable implements OnInit {
     })
   }
 
-  addComment(comment: ThreadComment){
+  onComment(comment: ThreadComment){
     this.threadService.addComment(this.id, comment).subscribe(response => {
       console.log('Comment added:', response);
+      this.threadService.getThread(this.id).pipe(
+        take(1)
+      ).subscribe(thread => {
+        this.threadData.next(thread)
+      })
     });
   }
 

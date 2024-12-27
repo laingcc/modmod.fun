@@ -5,13 +5,16 @@
         <img src="https://via.placeholder.com/250x150" alt="Project Image">
       </div>
       <h3>{{ thread?.title }}</h3>
-      <p class="author"><span class="attribution">By:</span> {{ thread?.author | slice:0:10 }}</p>
+      <app-tripcode-pill
+      [author] = "thread.author"
+      ></app-tripcode-pill>
     </div>
   </div>
   <div class="main-column-layout">
     <app-thread
       [threadData]="threadData"
       [threadId] = "id"
+      (Comment)="onComment($event)"
     ></app-thread>
   </div>
 </div>

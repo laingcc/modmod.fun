@@ -49,7 +49,7 @@ export class ProjectsComponent extends Destroyable implements OnInit {
       console.log(newThread)
       if (newThread){
         this.threadService.createThread(newThread).subscribe(response => {
-          console.log('lmao')
+          this.router.navigate(['project',{id:response.id}])
         });
       }
       //wait a bit, and then maybe route to the new project?

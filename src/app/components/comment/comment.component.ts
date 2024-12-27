@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {JsonPipe, NgIf, SlicePipe} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
+import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 
 
 export type ThreadComment = {
@@ -17,7 +18,8 @@ export type ThreadComment = {
   imports: [
     ActionsComponent,
     NgIf,
-    SlicePipe
+    SlicePipe,
+    TripcodePillComponent
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'
@@ -32,14 +34,5 @@ export class CommentComponent {
   }
 
   @Input() isOp: boolean = false;
-
-  getColorForAuthor(authorHash: string){
-    let color = ''
-    for(let i = 0; color.length < 6; i++){
-      color = color.concat(authorHash.charCodeAt(i).toString(16))
-    }
-    return `#${color}`
-
-}
 
 }
