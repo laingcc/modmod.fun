@@ -2,7 +2,7 @@
   <div class="left-column-layout">
     <div class="active-project" *ngIf="(threadData|async) as thread">
       <div class="project-image">
-        <img src="https://via.placeholder.com/250x150" alt="Project Image">
+        <img ngSrc="{{imageUrl}}" alt="Project Image" width="250" height="150">
       </div>
       <h3>{{ thread?.title }}</h3>
       <app-tripcode-pill

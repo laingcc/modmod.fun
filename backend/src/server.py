@@ -13,7 +13,8 @@ def init_db():
             content TEXT NOT NULL,
             date TEXT NOT NULL,
             feverCount INTEGER NOT NULL,
-            threadId INTEGER NOT NULL REFERENCES threads(id)
+            threadId INTEGER NOT NULL REFERENCES threads(id),
+            imageId INTEGER REFERENCES images(id)
         )
     ''')
     cursor.execute('''
@@ -22,7 +23,8 @@ def init_db():
             title TEXT NOT NULL,
             author TEXT NOT NULL REFERENCES users(tripcode),
             date TEXT NOT NULL,
-            description TEXT NOT NULL
+            description TEXT NOT NULL,
+            imageId INTEGER REFERENCES images(id)
         )
     ''')
     cursor.execute('''
@@ -33,6 +35,12 @@ def init_db():
             friendlyname TEXT NOT NULL
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT NOT NULL
+        )
+    ''')
     conn.commit()
     conn.close()
 
@@ -40,6 +48,7 @@ def init_db():
 import comments
 import threads
 import users
+import images
 
 if __name__ == '__main__':
     init_db()

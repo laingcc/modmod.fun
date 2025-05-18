@@ -1,5 +1,6 @@
 <div class="comment-container">
   <div class="header">
+    <span>
   <app-tripcode-pill
   [isOp] = isOp
   [author]="Comment.author"
@@ -7,9 +8,12 @@
   </app-tripcode-pill>
     <span class="number">No.{{Comment.id}}</span>
     <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
+    </span>
   </div>
   <div class="comment-content">
-    {{Comment.content}}
+    <markdown
+      [data]="Comment.content"
+    ></markdown>
   </div>
   <app-actions></app-actions>
 </div>

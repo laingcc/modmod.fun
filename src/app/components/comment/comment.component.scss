@@ -9,15 +9,14 @@
 .header{
   background-color: #0000001a;
   margin: -20px -20px 0px -20px;
-  padding: 2px 10px;
+  padding: 5px 10px;
   display: flex;
 
   span{
     padding: 5px;
   }
   app-tripcode-pill{
-    padding: 5px;
-    margin: 5px;
+    margin-left: -10px;
   }
   .number{
     justify-self: end;

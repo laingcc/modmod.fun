@@ -13,6 +13,7 @@ export type Thread = {
   title: string;
   author: string;
   date: string;
+  imageId: string;
 }
 
 @Injectable(

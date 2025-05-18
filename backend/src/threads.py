@@ -18,7 +18,8 @@ def get_threads():
     'title': t[1],
     'author': t[2],
     'date': t[3],
-    'description': t[4]
+    'description': t[4],
+    'imageId': t[5]
   } for t in threads])
 
 @app.route('/threads/<int:thread_id>', methods=['GET'])
@@ -36,6 +37,7 @@ def get_thread(thread_id):
     'author': thread[2],
     'date': thread[3],
     'description': thread[4],
+    'imageId': thread[5],
     'comments': [{
       'id': c[0],
       'author': c[1],
@@ -49,8 +51,8 @@ def create_thread():
   new_thread = request.get_json()
   conn = sqlite3.connect('database.db')
   cursor = conn.cursor()
-  cursor.execute('INSERT INTO threads (title, author, date, description) VALUES (?, ?, ?, ?)',
-                 (new_thread['title'],get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description']))
+  cursor.execute('INSERT INTO threads (title, author, date, description, imageId) VALUES (?, ?, ?, ?, ?)',
+                 (new_thread['title'],get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description'], new_thread['imageId']))
   conn.commit()
   new_thread['id'] = cursor.lastrowid
   conn.close()

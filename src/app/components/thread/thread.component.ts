@@ -2,9 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoremIpsum} from "lorem-ipsum";
 import {Thread, ThreadService} from "../../services/thread.service";
 import {CommentComponent, ThreadComment} from "../comment/comment.component";
-import {AsyncPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Observable} from "rxjs";
 import {ActionsComponent} from "../actions/actions.component";
+import {MarkdownComponent} from "ngx-markdown";
 
 @Component({
   selector: 'app-thread',
@@ -13,7 +14,9 @@ import {ActionsComponent} from "../actions/actions.component";
     CommentComponent,
     NgForOf,
     AsyncPipe,
-    ActionsComponent
+    ActionsComponent,
+    MarkdownComponent,
+    NgIf
   ],
   providers:[ThreadService],
   templateUrl: './thread.component.html',
@@ -21,7 +24,7 @@ import {ActionsComponent} from "../actions/actions.component";
 })
 export class ThreadComponent{
 
-  @Input() threadData: Observable<any>
+  @Input() threadData: Observable<Thread>
   @Input() threadId: number;
 
   @Output() Comment = new EventEmitter<ThreadComment>()

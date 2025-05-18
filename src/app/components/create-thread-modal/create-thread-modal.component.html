@@ -1,20 +1,30 @@
 <div class="modal">
   <div class="modal-content">
-    <h2>Create Project</h2>
-    <form (ngSubmit)="onSubmit()" class="modal-form">
+    <div class="editor-content">
+      <form (ngSubmit)="onSubmit()" class="modal-form" #form>
+        <div>
+          <input type="text" id="title" [(ngModel)]="thread.title" name="title" placeholder="Title" required>
+        </div>
+        <div class="editor-description">
+          <textarea id="description" [(ngModel)]="thread.description" name="description" placeholder="Your Project Details"required></textarea>
+        </div>
+        <div>
+          <input type="text" id="author" [(ngModel)]="thread.author" name="author" placeholder="Tripcode Password" required>
+        </div>
+        <div>
+          <input type="file" id="image" (change)="onFileSelected($event)" accept="image/*">
+        </div>
+      </form>
       <div>
-        <label for="title">Title:</label>
-        <input type="text" id="title" [(ngModel)]="thread.title" name="title" required>
+        <label for="preview">Show Post Preview</label>
+        <input type="checkbox" id="preview" #preview checked="checked" (change)="onCheck()">
       </div>
-      <div>
-        <label for="author">Author:</label>
-        <input type="text" id="author" [(ngModel)]="thread.author" name="author" required>
+    </div>
+    <div class="editor-preview" *ngIf="preview.checked">
+      <div class="thread-item thread-description">
+        <markdown [data]="thread.description"></markdown>
       </div>
-      <div>
-        <label for="description">Description:</label>
-        <textarea id="description" [(ngModel)]="thread.description" name="description" required></textarea>
-      </div>
-      <button type="submit">Create</button>
-    </form>
+    </div>
   </div>
+  <button class="modal-submit" (click)="onPost(form)">Create</button>
 </div>

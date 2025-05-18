@@ -1,15 +1,18 @@
-<div class="thread-container">
+<div class="thread-container" *ngIf="(threadData | async) as thread">
   <div class="thread-item thread-description">
-    {{(threadData | async)?.description}}
+    <markdown
+      [data]="thread.description"
+    >
+    </markdown>
     <app-actions
       (Comment)="onComment($event)">
 
     </app-actions>
   </div>
-  <div class="thread-item comment" *ngFor="let comment of ((threadData | async)?.comments ?? [])">
+  <div class="thread-item comment" *ngFor="let comment of (thread.comments ?? [])">
     <app-comment
       [Comment]="comment"
-      [isOp] = 'comment.author === (threadData | async)?.author'
+      [isOp] = 'comment.author === thread.author'
     ></app-comment>
   </div>
 </div>

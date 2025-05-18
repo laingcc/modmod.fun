@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {JsonPipe, NgIf, SlicePipe} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
 import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
+import {MarkdownComponent} from "ngx-markdown";
 
 
 export type ThreadComment = {
@@ -19,7 +20,8 @@ export type ThreadComment = {
     ActionsComponent,
     NgIf,
     SlicePipe,
-    TripcodePillComponent
+    TripcodePillComponent,
+    MarkdownComponent
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'

@@ -4,10 +4,12 @@
   <div class="project" *ngFor="let project of (projects$ | async)">
     <div class="project-container" (click)="navigate(project.id)">
       <div class="project-image">
-        <img src="https://via.placeholder.com/250x150" alt="Project Image">
+        <img ngSrc="{{imagehost+project.imageId}}" alt="Project Image" width="250" height="150">
       </div>
       <h3 class="project-name">{{project.title}}</h3>
-      <p class="author"><span class="attribution">By: </span>{{project.author | slice:0:10}}</p>
+      <app-tripcode-pill
+        [author]="project.author">
+      </app-tripcode-pill>
     </div>
   </div>
 </div>
