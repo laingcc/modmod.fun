@@ -3,12 +3,16 @@ import sqlite3
 import uuid
 from flask import request, jsonify, send_from_directory
 from __main__ import app
+from PIL import Image  # Add this import for image processing
 
 from configs import server_configs
 from server_utils.server_utils import get_tripcode
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+THUMBNAIL_FOLDER = 'thumbnails'
+os.makedirs(THUMBNAIL_FOLDER, exist_ok=True)
 
 @app.route('/images', methods=['POST'])
 def upload_image():
@@ -33,7 +37,24 @@ def upload_image():
 
 @app.route('/images/<filename>', methods=['GET'])
 def get_image(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+    full_res = request.args.get('full_res', 'false').lower() == 'true'
+
+    if full_res:
+        return send_from_directory(UPLOAD_FOLDER, filename)
+
+    # Generate and serve a thumbnail
+    thumbnail_path = os.path.join(THUMBNAIL_FOLDER, filename)
+    original_path = os.path.join(UPLOAD_FOLDER, filename)
+
+    if not os.path.exists(thumbnail_path):
+        try:
+            with Image.open(original_path) as img:
+                img.thumbnail((200, 150))
+                img.save(thumbnail_path, "webp", quality=85)
+        except Exception as e:
+            return jsonify({'error': f'Failed to generate thumbnail: {str(e)}'}), 500
+
+    return send_from_directory(THUMBNAIL_FOLDER, filename)
 
 @app.route('/images/batch', methods=['POST'])
 def upload_images_batch():

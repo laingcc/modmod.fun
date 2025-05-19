@@ -9,13 +9,16 @@
           <textarea id="description" [(ngModel)]="thread.description" name="description" placeholder="Your Project Details"required></textarea>
         </div>
         <div>
-          <input type="text" id="author" [(ngModel)]="thread.author" name="author" placeholder="Tripcode Password" required>
+          <input type="text" id="author" [(ngModel)]="thread.author" name="author" placeholder="Tripcode Password (Optional)">
         </div>
         <div>
           <input type="file" id="images" (change)="onFilesSelected($event)" accept="image/*" multiple>
         </div>
         <div class="image-preview">
-          <img *ngFor="let image of selectedFiles" [src]="image.preview" class="preview-image">
+          <div class="image-container" *ngFor="let image of selectedFiles; let i = index">
+            <img [src]="image.preview" class="preview-image">
+            <button type="button" class="remove-image" (click)="removeImage(i)">x</button>
+          </div>
         </div>
       </form>
       <div>

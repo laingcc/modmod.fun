@@ -33,6 +33,8 @@ export class CreateThreadModalComponent {
     imageIds: []
   };
 
+  selectedFiles: { file: File; preview: string }[] = [];
+  fileInputElement: HTMLInputElement | null = null;
 
   constructor(
     private threadService: ThreadService,
@@ -40,7 +42,23 @@ export class CreateThreadModalComponent {
     public changeDetectorRef: ChangeDetectorRef
   ) {}
 
+  private generateRandomString(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const crypto = window.crypto || (window as any).msCrypto; // For older browsers
+    const randomValues = new Uint8Array(length);
+    crypto.getRandomValues(randomValues);
+    randomValues.forEach(value => {
+      result += characters.charAt(value % characters.length);
+    });
+    return result;
+  }
+
   onSubmit() {
+    // If the author (tripcode) is not provided, generate a random string
+    if (!this.thread.author || this.thread.author.trim() === '') {
+      this.thread.author = this.generateRandomString(12); // Generate a 12-character random string
+    }
     this.dialogRef.close({ thread: this.thread, images: this.selectedFiles.map(f => f.file) });
   }
 
@@ -54,10 +72,9 @@ export class CreateThreadModalComponent {
     this.changeDetectorRef.detectChanges();
   }
 
-  selectedFiles: { file: File; preview: string }[] = [];
-
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
+    this.fileInputElement = input; // Store the file input element for later use
     if (input.files) {
       this.selectedFiles = Array.from(input.files).map(file => ({
         file,
@@ -65,5 +82,16 @@ export class CreateThreadModalComponent {
       }));
     }
   }
-}
 
+  removeImage(index: number): void {
+    // Remove the selected image
+    this.selectedFiles.splice(index, 1);
+
+    // Update the file input element to reflect the remaining files
+    if (this.fileInputElement) {
+      const dataTransfer = new DataTransfer();
+      this.selectedFiles.forEach(file => dataTransfer.items.add(file.file));
+      this.fileInputElement.files = dataTransfer.files;
+    }
+  }
+}
