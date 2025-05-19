@@ -23,4 +23,13 @@ export class ImageService {
 
     return this.http.post<Image>(`${this.environmentService.apiHost}/images`, formData);
   }
+
+  createImages(imageFiles: File[]): Observable<Image[]> {
+    const formData = new FormData();
+    imageFiles.forEach((file, index) => {
+      formData.append('files', file, `file${index}`);
+    });
+
+    return this.http.post<Image[]>(`${this.environmentService.apiHost}/images/batch`, formData);
+  }
 }

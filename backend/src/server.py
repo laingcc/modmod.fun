@@ -41,6 +41,13 @@ def init_db():
             filename TEXT NOT NULL
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS thread_images (
+            threadId INTEGER NOT NULL REFERENCES threads(id),
+            imageId INTEGER NOT NULL REFERENCES images(id),
+            PRIMARY KEY (threadId, imageId)
+        )
+    ''')
     conn.commit()
     conn.close()
 

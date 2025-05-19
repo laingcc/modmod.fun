@@ -11,7 +11,7 @@ export type Project = {
   title: string;
   description: string;
   author: string;
-  imageId: string;
+  imageIds: string[];
 }
 
 @Injectable()

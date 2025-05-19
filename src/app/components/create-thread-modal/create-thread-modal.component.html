@@ -12,7 +12,10 @@
           <input type="text" id="author" [(ngModel)]="thread.author" name="author" placeholder="Tripcode Password" required>
         </div>
         <div>
-          <input type="file" id="image" (change)="onFileSelected($event)" accept="image/*">
+          <input type="file" id="images" (change)="onFilesSelected($event)" accept="image/*" multiple>
+        </div>
+        <div class="image-preview">
+          <img *ngFor="let image of selectedFiles" [src]="image.preview" class="preview-image">
         </div>
       </form>
       <div>
@@ -21,6 +24,7 @@
       </div>
     </div>
     <div class="editor-preview" *ngIf="preview.checked">
+      <h2>{{thread.title}}</h2>
       <div class="thread-item thread-description">
         <markdown [data]="thread.description"></markdown>
       </div>

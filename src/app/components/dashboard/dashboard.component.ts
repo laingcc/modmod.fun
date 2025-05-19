@@ -49,7 +49,8 @@ export class DashboardComponent extends Destroyable implements OnInit {
       ).subscribe(thread => {
         this.threadData.next(thread)
         this.titleService.setTitle(thread.title ?? 'Thread')
-        this.imageUrl = `${this.environmentService.apiHost}/images/${thread.imageId}`
+        const mainImageId = thread.imageIds[0]
+        this.imageUrl = `${this.environmentService.apiHost}/images/${mainImageId}`
         console.log(thread)
       });
     })

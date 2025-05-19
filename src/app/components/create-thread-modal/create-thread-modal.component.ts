@@ -2,12 +2,13 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import { ThreadService, Thread } from '../../services/thread.service';
 import {FormsModule, NgForm} from '@angular/forms';
 import {MatDialogRef} from "@angular/material/dialog";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
 import {MarkdownComponent} from "ngx-markdown";
+import {BrowserModule} from "@angular/platform-browser";
 
 export interface CreateThreadReturn {
   thread: Thread;
-  image: File;
+  images: File[];
 }
 @Component({
   selector: 'app-create-thread-modal',
@@ -16,9 +17,9 @@ export interface CreateThreadReturn {
   standalone: true,
   imports: [
     FormsModule,
-    AsyncPipe,
     MarkdownComponent,
     NgIf,
+    CommonModule
   ]
 })
 export class CreateThreadModalComponent {
@@ -29,7 +30,7 @@ export class CreateThreadModalComponent {
     date: '',
     description: '',
     comments: [],
-    imageId: ''
+    imageIds: []
   };
 
 
@@ -40,8 +41,7 @@ export class CreateThreadModalComponent {
   ) {}
 
   onSubmit() {
-    this.dialogRef.close({thread: this.thread, image: this.selectedFile});
-
+    this.dialogRef.close({ thread: this.thread, images: this.selectedFiles.map(f => f.file) });
   }
 
   onPost(form:any){
@@ -54,14 +54,16 @@ export class CreateThreadModalComponent {
     this.changeDetectorRef.detectChanges();
   }
 
-  selectedFile: any;
+  selectedFiles: { file: File; preview: string }[] = [];
 
-  onFileSelected(event: Event): void {
+  onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
+    if (input.files) {
+      this.selectedFiles = Array.from(input.files).map(file => ({
+        file,
+        preview: URL.createObjectURL(file)
+      }));
     }
   }
-
-
 }
+

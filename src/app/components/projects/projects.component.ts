@@ -49,8 +49,8 @@ export class ProjectsComponent extends Destroyable implements OnInit {
     this.imagehost = `${this.environmentService.apiHost}/images/`;
   }
 
-  navigate(id:number){
-    this.router.navigate(['project',{id:id}])
+  navigate(id: number) {
+    this.router.navigate(['project', {id: id}])
   }
 
 
@@ -58,16 +58,14 @@ export class ProjectsComponent extends Destroyable implements OnInit {
     this.matDialog.open(CreateThreadModalComponent).afterClosed().subscribe((newThread: CreateThreadReturn) => {
       console.log(newThread)
       if (newThread){
-          this.imageService.createImage(newThread.image).pipe(switchMap(response => {
-            newThread.thread.imageId = response.filename;
+          this.imageService.createImages(newThread.images).pipe(switchMap(response => {
+            newThread.thread.imageIds = response.map(image => image.filename);
             return this.threadService.createThread(newThread.thread)
 
           })).subscribe(response => {
           this.router.navigate(['project',{id:response.id}])
         });
       }
-      //wait a bit, and then maybe route to the new project?
-
     });
   }
 }

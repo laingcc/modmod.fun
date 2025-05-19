@@ -8,75 +8,101 @@ from server_utils.server_utils import get_tripcode
 
 @app.route('/threads', methods=['GET'])
 def get_threads():
-  conn = sqlite3.connect('database.db')
-  cursor = conn.cursor()
-  cursor.execute('SELECT * FROM threads')
-  threads = cursor.fetchall()
-  conn.close()
-  return jsonify([{
-    'id': t[0],
-    'title': t[1],
-    'author': t[2],
-    'date': t[3],
-    'description': t[4],
-    'imageId': t[5]
-  } for t in threads])
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM threads')
+    threads = cursor.fetchall()
+
+    # Fetch associated images for each thread
+    thread_data = []
+    for t in threads:
+        cursor.execute('SELECT imageId FROM thread_images WHERE threadId = ?', (t[0],))
+        image_ids = [row[0] for row in cursor.fetchall()]
+        thread_data.append({
+            'id': t[0],
+            'title': t[1],
+            'author': t[2],
+            'date': t[3],
+            'description': t[4],
+            'imageIds': image_ids
+        })
+
+    conn.close()
+    return jsonify(thread_data)
 
 @app.route('/threads/<int:thread_id>', methods=['GET'])
 def get_thread(thread_id):
-  conn = sqlite3.connect('database.db')
-  cursor = conn.cursor()
-  cursor.execute('SELECT * FROM threads WHERE id = ?', (thread_id,))
-  thread = cursor.fetchone()
-  cursor.execute('SELECT * FROM comments WHERE threadId = ?', (thread_id,))
-  comments = cursor.fetchall()
-  conn.close()
-  return jsonify({
-    'id': thread[0],
-    'title': thread[1],
-    'author': thread[2],
-    'date': thread[3],
-    'description': thread[4],
-    'imageId': thread[5],
-    'comments': [{
-      'id': c[0],
-      'author': c[1],
-      'content': c[2],
-      'date': c[3],
-      'feverCount': c[4]
-    } for c in comments]})
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM threads WHERE id = ?', (thread_id,))
+    thread = cursor.fetchone()
+
+    # Fetch associated images
+    cursor.execute('SELECT imageId FROM thread_images WHERE threadId = ?', (thread_id,))
+    image_ids = [row[0] for row in cursor.fetchall()]
+
+    cursor.execute('SELECT * FROM comments WHERE threadId = ?', (thread_id,))
+    comments = cursor.fetchall()
+    conn.close()
+    return jsonify({
+        'id': thread[0],
+        'title': thread[1],
+        'author': thread[2],
+        'date': thread[3],
+        'description': thread[4],
+        'imageIds': image_ids,
+        'comments': [{
+            'id': c[0],
+            'author': c[1],
+            'content': c[2],
+            'date': c[3],
+            'feverCount': c[4]
+        } for c in comments]
+    })
 
 @app.route('/threads', methods=['POST'])
 def create_thread():
-  new_thread = request.get_json()
-  conn = sqlite3.connect('database.db')
-  cursor = conn.cursor()
-  cursor.execute('INSERT INTO threads (title, author, date, description, imageId) VALUES (?, ?, ?, ?, ?)',
-                 (new_thread['title'],get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description'], new_thread['imageId']))
-  conn.commit()
-  new_thread['id'] = cursor.lastrowid
-  conn.close()
-  return jsonify(new_thread), 201
+    new_thread = request.get_json()
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO threads (title, author, date, description) VALUES (?, ?, ?, ?)',
+                   (new_thread['title'], get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description']))
+    thread_id = cursor.lastrowid
+
+    # Insert multiple images
+    for image_id in new_thread['imageIds']:
+        cursor.execute('INSERT INTO thread_images (threadId, imageId) VALUES (?, ?)', (thread_id, image_id))
+
+    conn.commit()
+    conn.close()
+    new_thread['id'] = thread_id
+    return jsonify(new_thread), 201
 
 @app.route('/threads/<int:thread_id>', methods=['PUT'])
 def update_thread(thread_id):
-  updated_thread = request.get_json()
-  conn = sqlite3.connect('database.db')
-  cursor = conn.cursor()
+    updated_thread = request.get_json()
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 
-  # Fetch the existing thread
-  cursor.execute('SELECT author FROM threads WHERE id = ?', (thread_id,))
-  existing_thread = cursor.fetchone()
+    # Fetch the existing thread
+    cursor.execute('SELECT author FROM threads WHERE id = ?', (thread_id,))
+    existing_thread = cursor.fetchone()
 
-  if existing_thread is None or get_tripcode(updated_thread['author'], server_configs['salt']) != existing_thread[0]:
+    if existing_thread is None or get_tripcode(updated_thread['author'], server_configs['salt']) != existing_thread[0]:
+        conn.close()
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    cursor.execute('UPDATE threads SET title = ?, author = ?, date = ?, description = ? WHERE id = ?',
+                   (updated_thread['title'], updated_thread['author'], updated_thread['date'], updated_thread['description'], thread_id))
+
+    # Update associated images
+    cursor.execute('DELETE FROM thread_images WHERE threadId = ?', (thread_id,))
+    for image_id in updated_thread['imageIds']:
+        cursor.execute('INSERT INTO thread_images (threadId, imageId) VALUES (?, ?)', (thread_id, image_id))
+
+    conn.commit()
     conn.close()
-    return jsonify({'error': 'Unauthorized'}), 403
-
-  cursor.execute('UPDATE threads SET title = ?, author = ?, date = ? WHERE id = ?',
-                 (updated_thread['title'], updated_thread['author'], updated_thread['date'], thread_id))
-  conn.commit()
-  conn.close()
-  return jsonify(updated_thread)
+    return jsonify(updated_thread)
 
 @app.route('/threads/<int:thread_id>', methods=['DELETE'])
 def delete_thread(thread_id):

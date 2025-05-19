@@ -39,19 +39,8 @@
     overflow: auto;
     padding: 10px;
     margin: 5px;
+    border: 1px solid black;
 
-  }
-  .editor-preview::before{
-    content: "Preview";
-    font-weight: bold;
-    font-size: 1.2em;
-    position: sticky;
-    top: -20px;
-    background: white;
-    width: 100%;
-    display: flex;
-    padding: 5px;
-    margin-top: -5px;
   }
 
 

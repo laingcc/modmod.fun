@@ -4,7 +4,7 @@
   <div class="project" *ngFor="let project of (projects$ | async)">
     <div class="project-container" (click)="navigate(project.id)">
       <div class="project-image">
-        <img ngSrc="{{imagehost+project.imageId}}" alt="Project Image" width="250" height="150">
+        <img ngSrc="{{imagehost+project.imageIds[0]}}" alt="Project Image" width="250" height="150">
       </div>
       <h3 class="project-name">{{project.title}}</h3>
       <app-tripcode-pill
