@@ -6,8 +6,37 @@
   font-style: normal;
 }
 * {
-  font-family: "Funnel Sans"
+  font-family: 'IBM Plex Mono', monospace;
+}
+:root {
+  --color-bg: #0b0b0b;
+  --color-modal-bg: #101c10;
+  --color-fg: #b4ff9f;
+  --color-fg-2: #9cfaff;
+  --color-toolbar-bg: #101c10;
+  --color-toolbar-border: #2fff93;
+  --color-accent: #ff007c;
+  --color-accent-2: #ff007c;
+  --color-accent-3: #ff007c;
+  --color-accent-4: #ff007c;
+  --color-accent-5: #ff007c;
+  --color-accent-6: #ff007c;
+  --color-accent-7: #ff007c;
+  --color-accent-8: #ff007c;
+  --color-accent-9: #ff007c;
+  --color-accent-10: #ff007c;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'IBM Plex Mono', monospace;}
+
+body {
+  //background: url('/assets/noise-bg.png');
+  background-color: #0b0b0b;  /* nearly black */
+  color: #b4ff9f;             /* phosphor green */
+
+  a {
+    color: var(--color-accent);
+  }
+
+}
