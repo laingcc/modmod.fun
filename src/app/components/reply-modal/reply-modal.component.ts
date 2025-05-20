@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import { generateRandomString } from '../../utils/utils'; // Import the function
 
 @Component({
   selector: 'app-reply-modal',
@@ -27,7 +28,13 @@ export class ReplyModalComponent {
 
   sendComment() {
     const formValue = this.form.value;
-    console.log(formValue)
+
+    // If the author field is empty, generate a random string
+    if (!formValue.author || formValue.author.trim() === '') {
+      formValue.author = generateRandomString(12);
+    }
+
+    console.log(formValue);
     this.dialogRef.close({
       content: formValue.content,
       author: formValue.author,
@@ -35,3 +42,4 @@ export class ReplyModalComponent {
     });
   }
 }
+

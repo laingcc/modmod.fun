@@ -5,6 +5,7 @@ import {MatDialogRef} from "@angular/material/dialog";
 import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
 import {MarkdownComponent} from "ngx-markdown";
 import {BrowserModule} from "@angular/platform-browser";
+import { generateRandomString } from '../../utils/utils'; // Import the function
 
 export interface CreateThreadReturn {
   thread: Thread;
@@ -37,27 +38,14 @@ export class CreateThreadModalComponent {
   fileInputElement: HTMLInputElement | null = null;
 
   constructor(
-    private threadService: ThreadService,
     private dialogRef: MatDialogRef<CreateThreadModalComponent, CreateThreadReturn>,
     public changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  private generateRandomString(length: number): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const crypto = window.crypto || (window as any).msCrypto; // For older browsers
-    const randomValues = new Uint8Array(length);
-    crypto.getRandomValues(randomValues);
-    randomValues.forEach(value => {
-      result += characters.charAt(value % characters.length);
-    });
-    return result;
-  }
-
   onSubmit() {
     // If the author (tripcode) is not provided, generate a random string
     if (!this.thread.author || this.thread.author.trim() === '') {
-      this.thread.author = this.generateRandomString(12);
+      this.thread.author = generateRandomString(12); // Use the imported function
     }
     this.dialogRef.close({ thread: this.thread, images: this.selectedFiles.map(f => f.file) });
   }
