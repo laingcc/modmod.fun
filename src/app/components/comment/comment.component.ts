@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {JsonPipe, NgIf, SlicePipe} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
 import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 import {MarkdownComponent} from "ngx-markdown";
@@ -20,7 +20,6 @@ export type ThreadComment = {
   imports: [
     ActionsComponent,
     NgIf,
-    SlicePipe,
     TripcodePillComponent,
     MarkdownComponent,
   ],

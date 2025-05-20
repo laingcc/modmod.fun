@@ -16,7 +16,7 @@
         </div>
         <div class="image-preview">
           <div class="image-container" *ngFor="let image of selectedFiles; let i = index">
-            <img [src]="image.preview" class="preview-image">
+            <img [src]="image.preview" class="preview-image" alt="preview">
             <button type="button" class="remove-image" (click)="removeImage(i)">x</button>
           </div>
         </div>

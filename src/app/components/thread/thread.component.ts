@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {LoremIpsum} from "lorem-ipsum";
-import {Thread, ThreadService} from "../../services/thread.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Thread} from "../../services/thread.service";
 import {CommentComponent, ThreadComment} from "../comment/comment.component";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Observable} from "rxjs";
@@ -18,7 +17,7 @@ import {MarkdownComponent} from "ngx-markdown";
     MarkdownComponent,
     NgIf
   ],
-  providers:[ThreadService],
+  providers:[],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss'
 })
@@ -30,7 +29,6 @@ export class ThreadComponent{
   @Output() Comment = new EventEmitter<ThreadComment>()
 
   constructor(
-    private threadService: ThreadService
   ) {
   }
 
