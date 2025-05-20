@@ -14,7 +14,8 @@ def init_db():
             date TEXT NOT NULL,
             feverCount INTEGER NOT NULL,
             threadId INTEGER NOT NULL REFERENCES threads(id),
-            imageId INTEGER REFERENCES images(id)
+            imageId INTEGER REFERENCES images(id),
+            parentId INTEGER REFERENCES comments(id)
         )
     ''')
     cursor.execute('''

@@ -9,14 +9,23 @@ from server_utils.server_utils import get_tripcode
 
 @app.route('/threads/<int:thread_id>/comments', methods=['POST'])
 def create_comment(thread_id):
-  new_comment = request.get_json()
-  conn = sqlite3.connect('database.db')
-  cursor = conn.cursor()
-  cursor.execute('INSERT INTO comments (author, content, date, feverCount, threadId) VALUES (?, ?, ?, ?, ?)',
-                 (get_tripcode(new_comment['author'], server_configs['salt']), new_comment['content'], new_comment['date'], 0, thread_id))
-  conn.commit()
-  conn.close()
-  return jsonify(new_comment), 201
+    new_comment = request.get_json()
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO comments (author, content, date, feverCount, threadId, parentId)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (
+        get_tripcode(new_comment['author'], server_configs['salt']),
+        new_comment['content'],
+        new_comment['date'],
+        0,
+        thread_id,
+        new_comment.get('parentId')  # Use parentId if provided, otherwise None
+    ))
+    conn.commit()
+    conn.close()
+    return jsonify(new_comment), 201
 
 @app.route('/threads/<int:thread_id>/comments/<int:comment_id>', methods=['PUT'])
 def update_comment(thread_id, comment_id):

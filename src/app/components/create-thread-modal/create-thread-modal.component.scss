@@ -33,6 +33,12 @@
     }
   }
 
+  .divider {
+    width: 1px;
+    background-color: #ccc;
+    margin: 0 10px;
+  }
+
   .editor-preview{
     flex: 1 1 0;
     min-width: 30%;
@@ -41,6 +47,12 @@
     margin: 5px;
     border: 1px solid black;
 
+    .preview-title {
+      margin-bottom: 10px;
+      text-align: left; /* Align the title to the left */
+      border-bottom: 1px solid #ccc; /* Add a subtle separator */
+      padding-bottom: 5px;
+    }
   }
 
   .image-preview {

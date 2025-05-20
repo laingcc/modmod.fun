@@ -1,6 +1,11 @@
 <div class="header-container">
-  <div class="navigation-controls">
-    <a href="/">Projects</a>
-    <a href="/community">Community</a>
+  <div class="top-indicator"></div>
+  <div class="bar">
+    <p>modmod[.fun]</p>
+    <div class="navigation-controls">
+      <a [routerLink]="'/'" [class.active]="isActive('/')">[Projects]</a>
+      <a [routerLink]="'/community'" [class.active]="isActive('/community')">[Community]</a>
+    </div>
   </div>
+  <div class="bottom-indicator" ></div>
 </div>

@@ -6,7 +6,7 @@
           <input type="text" id="title" [(ngModel)]="thread.title" name="title" placeholder="Title" required>
         </div>
         <div class="editor-description">
-          <textarea id="description" [(ngModel)]="thread.description" name="description" placeholder="Your Project Details"required></textarea>
+          <textarea id="description" [(ngModel)]="thread.description" name="description" placeholder="Your Project Details" required></textarea>
         </div>
         <div>
           <input type="text" id="author" [(ngModel)]="thread.author" name="author" placeholder="Tripcode Password (Optional)">
@@ -26,10 +26,13 @@
         <input type="checkbox" id="preview" #preview checked="checked" (change)="onCheck()">
       </div>
     </div>
+    <div class="divider"></div> <!-- Add a divider here -->
     <div class="editor-preview" *ngIf="preview.checked">
-      <h2>{{thread.title}}</h2>
+      <div class="preview-title">
+        <h2>{{ thread.title || 'Your amazing thread title will appear here!' }}</h2> <!-- Friendly placeholder for title -->
+      </div>
       <div class="thread-item thread-description">
-        <markdown [data]="thread.description"></markdown>
+        <markdown [data]="thread.description || 'Start typing your project details, and they will magically appear here!'"></markdown> <!-- Friendly placeholder for content -->
       </div>
     </div>
   </div>

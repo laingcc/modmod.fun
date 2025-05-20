@@ -1,13 +1,16 @@
 <div class="comment-container">
   <div class="header">
     <span>
-  <app-tripcode-pill
-  [isOp] = isOp
-  [author]="Comment.author"
-  >
-  </app-tripcode-pill>
-    <span class="number">No.{{Comment.id}}</span>
-    <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
+      <app-tripcode-pill
+        [isOp]="isOp"
+        [author]="Comment.author"
+      ></app-tripcode-pill>
+      <span class="number">No.{{Comment.id}}</span>
+      <span
+        *ngIf="quoteNumber"
+        class="quote-number"
+        (click)="scrollToComment(quoteNumber)">>> {{quoteNumber}}</span> <!-- Make clickable -->
+      <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
     </span>
   </div>
   <div class="comment-content">
@@ -15,5 +18,7 @@
       [data]="Comment.content"
     ></markdown>
   </div>
-  <app-actions></app-actions>
+  <app-actions
+    (Comment)="onComment($event)"
+  ></app-actions>
 </div>

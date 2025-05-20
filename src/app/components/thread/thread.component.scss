@@ -14,5 +14,21 @@
 
   .comment{
     margin-left: 40px;
+
+    &.child-comment {
+      margin-left: 65px; /* Add 25px more for child comments */
+    }
+
+    &.same-line-comment {
+      margin-left: 65px; /* Align with child comments */
+      display: flex;
+      flex-direction: column;
+
+      .quote {
+        font-size: 0.9rem;
+        color: gray;
+        margin-bottom: 5px;
+      }
+    }
   }
 }

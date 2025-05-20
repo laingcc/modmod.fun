@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {JsonPipe, NgIf, SlicePipe} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
 import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
@@ -9,8 +9,9 @@ export type ThreadComment = {
   author: string,
   content: string,
   date: Date,
-  id: number
-  feverCount: number
+  id: number,
+  feverCount: number,
+  parentId?: number,
 }
 
 @Component({
@@ -21,7 +22,7 @@ export type ThreadComment = {
     NgIf,
     SlicePipe,
     TripcodePillComponent,
-    MarkdownComponent
+    MarkdownComponent,
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'
@@ -33,8 +34,24 @@ export class CommentComponent {
     date: new Date(),
     id: 0,
     feverCount: 0
-  }
+  };
 
   @Input() isOp: boolean = false;
 
+  @Input() quoteNumber?: number; // Add input for the quote number
+
+  @Output() parentComment = new EventEmitter<ThreadComment>();
+
+  onComment(comment: ThreadComment) {
+    comment.parentId = this.Comment.id;
+    this.parentComment.next(comment);
+  }
+
+  scrollToComment(commentId: number): void {
+    const element = document.getElementById(`comment-${commentId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
+

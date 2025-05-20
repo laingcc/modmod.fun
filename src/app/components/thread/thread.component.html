@@ -2,17 +2,38 @@
   <div class="thread-item thread-description">
     <markdown
       [data]="thread.description"
-    >
-    </markdown>
+    ></markdown>
     <app-actions
-      (Comment)="onComment($event)">
-
-    </app-actions>
+      (Comment)="onComment($event)"
+    ></app-actions>
   </div>
-  <div class="thread-item comment" *ngFor="let comment of (thread.comments ?? [])">
-    <app-comment
-      [Comment]="comment"
-      [isOp] = 'comment.author === thread.author'
-    ></app-comment>
-  </div>
+  <ng-container *ngFor="let comment of getRootComments(thread.comments)">
+    <div class="thread-item comment" [id]="'comment-' + comment.id"> <!-- Add id -->
+      <app-comment
+        [Comment]="comment"
+        [isOp]="comment.author === thread.author"
+        (parentComment)="onComment($event)"
+      ></app-comment>
+      <ng-container *ngFor="let child of getChildComments(thread.comments, comment.id)">
+        <div class="thread-item comment child-comment" [id]="'comment-' + child.id"> <!-- Add id -->
+          <app-comment
+            [Comment]="child"
+            [isOp]="child.author === thread.author"
+            [quoteNumber]="comment.id"
+            (parentComment)="onComment($event)"
+          ></app-comment>
+          <ng-container *ngFor="let descendant of getAllDescendants(thread.comments, child.id)">
+            <div class="thread-item comment same-line-comment" [id]="'comment-' + descendant.id"> <!-- Add id -->
+              <app-comment
+                [Comment]="descendant"
+                [isOp]="descendant.author === thread.author"
+                [quoteNumber]="descendant.parentId"
+                (parentComment)="onComment($event)"
+              ></app-comment>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>

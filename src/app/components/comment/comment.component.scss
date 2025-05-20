@@ -21,7 +21,17 @@
   .number{
     justify-self: end;
   }
+  .quote-number {
+    margin-left: 10px;
+    color: gray;
+    font-size: 0.9rem;
+    cursor: pointer; /* Make it look clickable */
+    text-decoration: underline;
 
+    &:hover {
+      color: blue; /* Highlight on hover */
+    }
+  }
 }
 .fever-count {
   margin-left: auto;
