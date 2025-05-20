@@ -57,7 +57,7 @@ export class CreateThreadModalComponent {
   onSubmit() {
     // If the author (tripcode) is not provided, generate a random string
     if (!this.thread.author || this.thread.author.trim() === '') {
-      this.thread.author = this.generateRandomString(12); // Generate a 12-character random string
+      this.thread.author = this.generateRandomString(12);
     }
     this.dialogRef.close({ thread: this.thread, images: this.selectedFiles.map(f => f.file) });
   }
@@ -74,7 +74,7 @@ export class CreateThreadModalComponent {
 
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.fileInputElement = input; // Store the file input element for later use
+    this.fileInputElement = input;
     if (input.files) {
       this.selectedFiles = Array.from(input.files).map(file => ({
         file,
@@ -84,10 +84,8 @@ export class CreateThreadModalComponent {
   }
 
   removeImage(index: number): void {
-    // Remove the selected image
     this.selectedFiles.splice(index, 1);
 
-    // Update the file input element to reflect the remaining files
     if (this.fileInputElement) {
       const dataTransfer = new DataTransfer();
       this.selectedFiles.forEach(file => dataTransfer.items.add(file.file));

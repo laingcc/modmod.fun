@@ -37,7 +37,7 @@ export class CommentComponent {
 
   @Input() isOp: boolean = false;
 
-  @Input() quoteNumber?: number; // Add input for the quote number
+  @Input() quoteNumber?: number;
 
   @Output() parentComment = new EventEmitter<ThreadComment>();
 

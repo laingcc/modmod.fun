@@ -19,6 +19,6 @@ export const routes: Routes = [
   },
   {
     path: 'community',
-    component: CommunityComponent // Add the new route
+    component: CommunityComponent
   }
 ];

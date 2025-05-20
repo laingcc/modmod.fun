@@ -57,7 +57,7 @@ def get_thread(thread_id):
             'content': c[2],
             'date': c[3],
             'feverCount': c[4],
-            'parentId': c[7]  # Include parentId in the response
+            'parentId': c[7]
         } for c in comments]
     })
 

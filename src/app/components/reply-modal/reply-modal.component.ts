@@ -26,7 +26,6 @@ export class ReplyModalComponent {
   }
 
   sendComment() {
-    // Logic to send the comment
     const formValue = this.form.value;
     console.log(formValue)
     this.dialogRef.close({
