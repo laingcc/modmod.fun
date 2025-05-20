@@ -26,15 +26,15 @@
         <input type="checkbox" id="preview" #preview checked="checked" (change)="onCheck()">
       </div>
     </div>
-    <div class="divider"></div> <!-- Add a divider here -->
+    <div class="divider"></div>
     <div class="editor-preview" *ngIf="preview.checked">
       <div class="preview-title">
-        <h2>{{ thread.title || 'Your amazing thread title will appear here!' }}</h2> <!-- Friendly placeholder for title -->
+        <h2>{{ thread.title || 'Your amazing thread title will appear here!' }}</h2>
       </div>
       <div class="thread-item thread-description">
-        <markdown [data]="thread.description || 'Start typing your project details, and they will magically appear here!'"></markdown> <!-- Friendly placeholder for content -->
+        <markdown [data]="thread.description || 'Start typing your project details, and they will magically appear here!'"></markdown>
       </div>
     </div>
   </div>
-  <button class="modal-submit" (click)="onPost(form)">Create</button>
+  <button class="modal-submit" (click)="onPost(form)">Save</button>
 </div>

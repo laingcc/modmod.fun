@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject} from '@angular/core';
 import { ThreadService, Thread } from '../../services/thread.service';
 import {FormsModule, NgForm} from '@angular/forms';
-import {MatDialogRef} from "@angular/material/dialog";
+import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
 import {MarkdownComponent} from "ngx-markdown";
 import {BrowserModule} from "@angular/platform-browser";
@@ -39,8 +39,13 @@ export class CreateThreadModalComponent {
 
   constructor(
     private dialogRef: MatDialogRef<CreateThreadModalComponent, CreateThreadReturn>,
+    @Inject(MAT_DIALOG_DATA) public data: { thread?: Thread }, // Accept thread data for editing
     public changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+    if (data?.thread) {
+      this.thread = { ...data.thread }; // Populate thread details if provided
+    }
+  }
 
   onSubmit() {
     // If the author (tripcode) is not provided, generate a random string
@@ -81,3 +86,4 @@ export class CreateThreadModalComponent {
     }
   }
 }
+

@@ -25,7 +25,8 @@ def init_db():
             author TEXT NOT NULL REFERENCES users(tripcode),
             date TEXT NOT NULL,
             description TEXT NOT NULL,
-            imageId INTEGER REFERENCES images(id)
+            imageId INTEGER REFERENCES images(id),
+            fever INTEGER NOT NULL DEFAULT 0
         )
     ''')
     cursor.execute('''

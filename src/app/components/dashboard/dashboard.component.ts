@@ -9,6 +9,8 @@ import {Title} from "@angular/platform-browser";
 import {Destroyable} from "../base/destroyable/destroyable.component";
 import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 import {EnvironmentService} from "../../../environments/environment.service";
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +21,9 @@ import {EnvironmentService} from "../../../environments/environment.service";
     SlicePipe,
     NgIf,
     TripcodePillComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatDialogModule,
+    CreateThreadModalComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -34,7 +38,8 @@ export class DashboardComponent extends Destroyable implements OnInit {
     private activatedRoute: ActivatedRoute,
     private threadService: ThreadService,
     private titleService: Title,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
+    private dialog: MatDialog // Inject MatDialog
   ) {
     super()
   }
@@ -67,5 +72,26 @@ export class DashboardComponent extends Destroyable implements OnInit {
     });
   }
 
+  edit() {
+    this.threadData.pipe(take(1)).subscribe(thread => {
+      const dialogRef = this.dialog.open(CreateThreadModalComponent, {
+        width: '500px',
+        data: { thread: {
+            ...thread,
+            author: '',
+          }}
+      });
+
+      dialogRef.afterClosed().subscribe(updatedThread => {
+        if (updatedThread) {
+          this.threadService.updateThread(this.id, updatedThread).subscribe(() => {
+            this.threadService.getThread(this.id).pipe(take(1)).subscribe(thread => {
+              this.threadData.next(thread);
+            });
+          });
+        }
+      });
+    });
+  }
 
 }

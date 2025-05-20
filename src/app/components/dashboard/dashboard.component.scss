@@ -16,6 +16,17 @@
     border: 1px solid var(--color-toolbar-bg);
   }
 
+  .project-management{
+    p{
+      color: var(--color-accent);
+      text-shadow:none;
+      cursor:pointer;
+    }
+    .action:hover{
+      text-decoration: underline;
+    }
+  }
+
 }
 .active-project::after {
   content:' ';

@@ -24,6 +24,7 @@ def get_threads():
             'author': t[2],
             'date': t[3],
             'description': t[4],
+            'fever': t[5],  # Include fever in the response
             'imageIds': image_ids
         })
 
@@ -50,6 +51,7 @@ def get_thread(thread_id):
         'author': thread[2],
         'date': thread[3],
         'description': thread[4],
+        'fever': thread[5],  # Include fever in the response
         'imageIds': image_ids,
         'comments': [{
             'id': c[0],
@@ -66,8 +68,8 @@ def create_thread():
     new_thread = request.get_json()
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO threads (title, author, date, description) VALUES (?, ?, ?, ?)',
-                   (new_thread['title'], get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description']))
+    cursor.execute('INSERT INTO threads (title, author, date, description, fever) VALUES (?, ?, ?, ?, ?)',
+                   (new_thread['title'], get_tripcode(new_thread['author'], server_configs['salt']), new_thread['date'], new_thread['description'], 0))  # Default fever to 0
     thread_id = cursor.lastrowid
 
     # Insert multiple images
@@ -81,7 +83,8 @@ def create_thread():
 
 @app.route('/threads/<int:thread_id>', methods=['PUT'])
 def update_thread(thread_id):
-    updated_thread = request.get_json()
+    updated_thread = request.get_json()['thread']
+    print(updated_thread)
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
@@ -94,7 +97,7 @@ def update_thread(thread_id):
         return jsonify({'error': 'Unauthorized'}), 403
 
     cursor.execute('UPDATE threads SET title = ?, author = ?, date = ?, description = ? WHERE id = ?',
-                   (updated_thread['title'], updated_thread['author'], updated_thread['date'], updated_thread['description'], thread_id))
+                   (updated_thread['title'], existing_thread[0], updated_thread['date'], updated_thread['description'], thread_id))
 
     # Update associated images
     cursor.execute('DELETE FROM thread_images WHERE threadId = ?', (thread_id,))
