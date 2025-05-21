@@ -33,7 +33,13 @@
       color: blue; /* Highlight on hover */
     }
   }
+  .datestamp {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--color-fg-2);
+  }
 }
 .fever-count {
   margin-left: auto;
 }
+

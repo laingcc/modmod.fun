@@ -9,9 +9,10 @@
       <span
         *ngIf="quoteNumber"
         class="quote-number"
-        (click)="scrollToComment(quoteNumber)">>> {{quoteNumber}}</span> <!-- Make clickable -->
+        (click)="scrollToComment(quoteNumber)">>> {{quoteNumber}}</span>
       <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
     </span>
+    <span class="datestamp">{{ Comment.date | date: 'medium' }}</span> <!-- Add datestamp -->
   </div>
   <div class="comment-content">
     <markdown

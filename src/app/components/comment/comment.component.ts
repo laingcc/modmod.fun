@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgIf} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {ActionsComponent} from "../actions/actions.component";
 import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 import {MarkdownComponent} from "ngx-markdown";
@@ -22,6 +22,7 @@ export type ThreadComment = {
     NgIf,
     TripcodePillComponent,
     MarkdownComponent,
+    DatePipe
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'

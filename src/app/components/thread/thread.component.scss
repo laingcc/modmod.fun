@@ -10,6 +10,22 @@
   }
   .thread-description{
     padding-top: 2px;
+
+    .footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+
+      label {
+        font-size: 0.9rem;
+        color: var(--color-fg);
+        cursor: pointer;
+
+        input {
+          margin-right: 5px;
+        }
+      }
+    }
   }
 
   .comment{

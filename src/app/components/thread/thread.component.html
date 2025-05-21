@@ -6,16 +6,22 @@
     <app-actions
       (Comment)="onComment($event)"
     ></app-actions>
+    <div class="footer">
+      <label>
+        <input type="checkbox" [(ngModel)]="onlyOp" (change)="filterComments()" />
+        Only OP
+      </label>
+    </div>
   </div>
-  <ng-container *ngFor="let comment of getRootComments(thread.comments)">
-    <div class="thread-item comment" [id]="'comment-' + comment.id"> <!-- Add id -->
+  <ng-container *ngFor="let comment of filteredComments">
+    <div class="thread-item comment" [id]="'comment-' + comment.id">
       <app-comment
         [Comment]="comment"
         [isOp]="comment.author === thread.author"
         (parentComment)="onComment($event)"
       ></app-comment>
       <ng-container *ngFor="let child of getChildComments(thread.comments, comment.id)">
-        <div class="thread-item comment child-comment" [id]="'comment-' + child.id"> <!-- Add id -->
+        <div class="thread-item comment child-comment" [id]="'comment-' + child.id">
           <app-comment
             [Comment]="child"
             [isOp]="child.author === thread.author"
@@ -23,7 +29,7 @@
             (parentComment)="onComment($event)"
           ></app-comment>
           <ng-container *ngFor="let descendant of getAllDescendants(thread.comments, child.id)">
-            <div class="thread-item comment same-line-comment" [id]="'comment-' + descendant.id"> <!-- Add id -->
+            <div class="thread-item comment same-line-comment" [id]="'comment-' + descendant.id">
               <app-comment
                 [Comment]="descendant"
                 [isOp]="descendant.author === thread.author"

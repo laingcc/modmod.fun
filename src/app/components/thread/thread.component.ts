@@ -5,6 +5,7 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Observable} from "rxjs";
 import {ActionsComponent} from "../actions/actions.component";
 import {MarkdownComponent} from "ngx-markdown";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-thread',
@@ -15,25 +16,44 @@ import {MarkdownComponent} from "ngx-markdown";
     AsyncPipe,
     ActionsComponent,
     MarkdownComponent,
-    NgIf
+    NgIf,
+    FormsModule // Add FormsModule for two-way binding
   ],
   providers:[],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss'
 })
-export class ThreadComponent{
-
-  @Input() threadData: Observable<Thread>
+export class ThreadComponent {
+  @Input() threadData: Observable<Thread>;
   @Input() threadId: number;
 
-  @Output() Comment = new EventEmitter<ThreadComment>()
+  @Output() Comment = new EventEmitter<ThreadComment>();
 
-  constructor(
-  ) {
+  onlyOp: boolean = false; // Track the state of the "Only OP" checkbox
+  filteredComments: ThreadComment[] = []; // Store filtered comments
+
+  constructor() {}
+
+  ngOnChanges(): void {
+    this.threadData?.subscribe(thread => {
+      this.filteredComments = this.getRootComments(thread.comments);
+    });
   }
 
-  onComment(comment: ThreadComment){
-    this.Comment.emit(comment)
+  onComment(comment: ThreadComment): void {
+    this.Comment.emit(comment);
+  }
+
+  filterComments(): void {
+    this.threadData?.subscribe(thread => {
+      if (this.onlyOp) {
+        this.filteredComments = this.getRootComments(thread.comments).filter(
+          comment => comment.author === thread.author
+        );
+      } else {
+        this.filteredComments = this.getRootComments(thread.comments);
+      }
+    });
   }
 
   getRootComments(comments: ThreadComment[]): ThreadComment[] {
@@ -43,7 +63,6 @@ export class ThreadComponent{
   getChildComments(comments: ThreadComment[], parentId: number): ThreadComment[] {
     return comments.filter(comment => comment.parentId === parentId).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
-
 
   getAllDescendants(comments: ThreadComment[], parentId: number): ThreadComment[] {
     const descendants: ThreadComment[] = [];
