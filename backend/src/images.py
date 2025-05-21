@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 from flask import request, jsonify, send_from_directory
 from __main__ import app
-from PIL import Image  # Add this import for image processing
+from PIL import Image, ImageOps  # Add this import for image processing
 
 from configs import server_configs
 from server_utils.server_utils import get_tripcode
@@ -27,11 +27,10 @@ def upload_image():
     filename = f"{uuid.uuid4().hex}_{file.filename}"
     file.save(os.path.join(UPLOAD_FOLDER, filename))
 
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO images (filename) VALUES (?)', (filename,))
-    conn.commit()
-    conn.close()
+    with sqlite3.connect(server_configs['db_path']) as conn:
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO images (filename) VALUES (?)', (filename,))
+        conn.commit()
 
     return jsonify({'filename': filename}), 201
 
@@ -49,8 +48,13 @@ def get_image(filename):
     if not os.path.exists(thumbnail_path):
         try:
             with Image.open(original_path) as img:
-                img.thumbnail((200, 150))
-                img.save(thumbnail_path, "webp", quality=85)
+                thumbnail_size = (250,150)
+                background = Image.new('RGB', thumbnail_size, (0,0,0))
+                img.thumbnail(thumbnail_size, Image.LANCZOS)
+
+                offset = ((thumbnail_size[0] - img.width) // 2, (thumbnail_size[1] - img.height) // 2)
+                background.paste(img, offset)
+                background.save(thumbnail_path, "webp", quality=90)
         except Exception as e:
             return jsonify({'error': f'Failed to generate thumbnail: {str(e)}'}), 500
 
@@ -66,19 +70,18 @@ def upload_images_batch():
         return jsonify({'error': 'No selected files'}), 400
 
     uploaded_files = []
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
+    with sqlite3.connect(server_configs['db_path']) as conn:
+        cursor = conn.cursor()
+        for file in files:
+            if file.filename == '':
+                continue
 
-    for file in files:
-        if file.filename == '':
-            continue
+            filename = f"{uuid.uuid4().hex}_{file.filename}"
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            cursor.execute('INSERT INTO images (filename) VALUES (?)', (filename,))
+            uploaded_files.append({'filename': filename})
 
-        filename = f"{uuid.uuid4().hex}_{file.filename}"
-        file.save(os.path.join(UPLOAD_FOLDER, filename))
-        cursor.execute('INSERT INTO images (filename) VALUES (?)', (filename,))
-        uploaded_files.append({'filename': filename})
-
-    conn.commit()
-    conn.close()
+        conn.commit()
 
     return jsonify(uploaded_files), 201
+

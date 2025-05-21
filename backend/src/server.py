@@ -1,12 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
 import sqlite3
+from configs import server_configs
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:*"}})
 
 def init_db():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(server_configs['db_path'])  # Updated
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS comments (
