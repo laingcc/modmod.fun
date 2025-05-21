@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
-import {HeaderComponent} from "./components/header/header.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,20 @@ import {HeaderComponent} from "./components/header/header.component";
 export class AppComponent {
   title = 'fever';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private themeService: ThemeService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.playNavigationSound();
       }
     });
+
+    // Initialize the theme using ThemeService
+    const savedTheme = this.themeService.getSavedTheme();
+    if (savedTheme) {
+      this.themeService.setTheme(savedTheme);
+    } else {
+      this.themeService.setTheme('terminal-synthwave'); // Default theme
+    }
   }
 
   private playNavigationSound(): void {
@@ -26,4 +35,3 @@ export class AppComponent {
     audio.play();
   }
 }
-

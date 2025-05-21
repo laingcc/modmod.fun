@@ -1,4 +1,11 @@
 <div class="header-container">
+  <div class="theme-selector">
+    <select [(ngModel)]="theme" (change)="switchTheme()">
+      <option *ngFor="let theme of themes" [value]="theme.value">
+        {{ theme.name }}
+      </option>
+    </select>
+  </div>
   <div class="top-indicator"></div>
   <div class="bar">
     <p>modmod[.fun]</p>
@@ -7,5 +14,5 @@
       <a [routerLink]="'/community'" [class.active]="isActive('/community')">[Community]</a>
     </div>
   </div>
-  <div class="bottom-indicator" ></div>
+  <div class="bottom-indicator"></div>
 </div>
