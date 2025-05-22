@@ -18,12 +18,10 @@ import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-m
   imports: [
     ThreadComponent,
     AsyncPipe,
-    SlicePipe,
     NgIf,
     TripcodePillComponent,
     NgOptimizedImage,
     MatDialogModule,
-    CreateThreadModalComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -53,7 +51,7 @@ export class DashboardComponent extends Destroyable implements OnInit {
         takeUntil(this.unsubscribe$)
       ).subscribe(thread => {
         this.threadData.next(thread)
-        this.titleService.setTitle(thread.title ?? 'Thread')
+        this.titleService.setTitle((thread.title ?? 'Thread' )+ ' | modmod[.fun]')
         const mainImageId = thread.imageIds[0]
         this.imageUrl = `${this.environmentService.apiHost}/images/${mainImageId}`
         console.log(thread)

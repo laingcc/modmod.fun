@@ -11,6 +11,7 @@ import {Destroyable} from "../base/destroyable/destroyable.component";
 import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 import {ImageService} from "../../services/image.service";
 import {EnvironmentService} from "../../../environments/environment.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-projects',
@@ -39,7 +40,8 @@ export class ProjectsComponent extends Destroyable implements OnInit {
     private matDialog: MatDialog,
     private threadService: ThreadService,
     private imageService: ImageService,
-    private environmentService: EnvironmentService
+    private environmentService: EnvironmentService,
+    private titleService: Title
   ) {
     super();
   }
@@ -47,6 +49,8 @@ export class ProjectsComponent extends Destroyable implements OnInit {
   ngOnInit() {
     this.projects$ = this.projectService.getAllProjects()
     this.imagehost = `${this.environmentService.apiHost}/images/`;
+
+    this.titleService.setTitle('modmod[.fun]')
   }
 
   navigate(id: number) {
