@@ -1,0 +1,25 @@
+<div class="gallery-modal-backdrop" *ngIf="show" (click)="close()"></div>
+<div class="gallery-modal" *ngIf="show">
+  <button class="close-btn" (click)="close()">×</button>
+  <div class="gallery-content">
+    <button class="nav-btn left" (click)="prevImage()" [disabled]="currentIndex === 0">&#8592;</button>
+    <img
+      class="main-image"
+      [src]="imageUrls[currentIndex]"
+      alt="Gallery image"
+      *ngIf="imageUrls.length"
+      (click)="$event.stopPropagation()"
+    />
+    <button class="nav-btn right" (click)="nextImage()" [disabled]="currentIndex === imageUrls.length - 1">&#8594;</button>
+  </div>
+  <div class="gallery-thumbnails">
+    <img
+      *ngFor="let url of imageUrls; let idx = index"
+      [src]="url"
+      [class.selected]="idx === currentIndex"
+      (click)="selectImage(idx); $event.stopPropagation()"
+      class="thumbnail"
+      alt="Preview"
+    />
+  </div>
+</div>
