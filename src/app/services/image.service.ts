@@ -13,8 +13,11 @@ export type Image = {
 export class ImageService {
   constructor(private http: HttpClient, private environmentService: EnvironmentService) {}
 
-  getImage(imageId: number): Observable<Image> {
-    return this.http.get<Image>(`${this.environmentService.apiHost}/images/${imageId}`);
+  getImage(imageId: number): Observable<Blob> {
+    return this.http.get(
+      `${this.environmentService.apiHost}/images/${imageId}?full_res=true`,
+      { responseType: 'blob' }
+    );
   }
 
   createImage(imageFile: File){

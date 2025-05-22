@@ -1,0 +1,110 @@
+.gallery-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+}
+
+.gallery-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222;
+  z-index: 1001;
+  padding: 24px 24px 80px 24px;
+  min-width: 600px;
+  min-height: 500px;
+  width: 70vw;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.gallery-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+}
+
+.main-image {
+  max-width: 90vw;
+  max-height: 70vh;
+  margin: 0 16px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  background: #111;
+  object-fit: contain;
+}
+
+// Updated nav-btn styles to use theme variables
+.nav-btn {
+  background: var(--color-toolbar-bg, #444);
+  border: 2px solid var(--color-toolbar-border, #2fff93);
+  color: var(--color-accent, #ff007c);
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  opacity: 0.92;
+  transition:
+    background 0.2s,
+    border 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+
+  &:hover:enabled {
+    background: var(--color-accent, #ff007c);
+    color: var(--color-bg, #0b0b0b);
+    border-color: var(--color-accent, #ff007c);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+    background: var(--color-toolbar-bg, #444);
+    color: var(--color-accent, #ff007c);
+    border-color: var(--color-toolbar-border, #2fff93);
+  }
+}
+
+.gallery-thumbnails {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 1002;
+}
+
+.thumbnail {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s;
+  background: #222;
+  &.selected {
+    border: 2px solid var(--color-accent, #ff007c);
+  }
+}

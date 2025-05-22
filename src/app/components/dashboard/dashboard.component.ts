@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ThreadComponent} from "../thread/thread.component";
 import {Thread, ThreadService} from "../../services/thread.service";
 import {ReplaySubject, take, takeUntil} from "rxjs";
-import {AsyncPipe, NgIf, NgOptimizedImage, SlicePipe} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, SlicePipe} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ThreadComment} from "../comment/comment.component";
 import {Title} from "@angular/platform-browser";
@@ -11,6 +11,7 @@ import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 import {EnvironmentService} from "../../../environments/environment.service";
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
+import { ImageGalleryModalComponent } from "../image-gallery-modal/image-gallery-modal.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-m
     TripcodePillComponent,
     NgOptimizedImage,
     MatDialogModule,
+    NgForOf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -36,7 +38,7 @@ export class DashboardComponent extends Destroyable implements OnInit {
     private activatedRoute: ActivatedRoute,
     private threadService: ThreadService,
     private titleService: Title,
-    private environmentService: EnvironmentService,
+    protected environmentService: EnvironmentService,
     private dialog: MatDialog // Inject MatDialog
   ) {
     super()
@@ -87,6 +89,18 @@ export class DashboardComponent extends Destroyable implements OnInit {
               this.threadData.next(thread);
             });
           });
+        }
+      });
+    });
+  }
+
+  launchGallery() {
+    this.threadData.pipe(take(1)).subscribe(thread => {
+      this.dialog.open(ImageGalleryModalComponent, {
+        width: '80vw',
+        maxWidth: '80vw',
+        data: {
+          imageIds: thread.imageIds
         }
       });
     });

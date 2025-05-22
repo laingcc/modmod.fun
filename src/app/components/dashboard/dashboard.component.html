@@ -1,8 +1,21 @@
 <div class="page-container">
   <div class="left-column-layout">
     <div class="active-project" *ngIf="(threadData|async) as thread">
-      <div class="project-image">
+      <div class="project-image" (click)="launchGallery()">
         <img ngSrc="{{imageUrl}}" alt="Project Image" width="250" height="150">
+      </div>
+      <!-- Image previews under the main image -->
+      <div class="dashboard-thumbnails" *ngIf="thread.imageIds.length > 1">
+        <img
+          *ngFor="let imgId of thread.imageIds; let idx = index"
+          [src]="environmentService?.apiHost + '/images/' + imgId"
+          [class.selected]="idx === 0"
+          class="dashboard-thumbnail"
+          alt="Preview"
+          width="48"
+          height="48"
+          (click)="launchGallery()"
+        />
       </div>
       <h3>{{ thread?.title }}</h3>
       <app-tripcode-pill

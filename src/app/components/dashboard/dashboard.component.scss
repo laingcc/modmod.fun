@@ -50,3 +50,28 @@
   flex-direction:column;
   flex: 1 1 0;
 }
+
+.dashboard-thumbnails {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 0 8px;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 250px; // Restrict to main image width
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.dashboard-thumbnail {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s;
+  background: #222;
+  &.selected {
+    border: 2px solid var(--color-accent, #ff007c);
+  }
+}
