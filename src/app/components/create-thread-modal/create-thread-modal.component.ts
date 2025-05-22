@@ -1,11 +1,10 @@
 import {ChangeDetectorRef, Component, Inject} from '@angular/core';
-import { ThreadService, Thread } from '../../services/thread.service';
-import {FormsModule, NgForm} from '@angular/forms';
+import { Thread } from '../../services/thread.service';
+import {FormsModule} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
+import {CommonModule, NgIf} from "@angular/common";
 import {MarkdownComponent} from "ngx-markdown";
-import {BrowserModule} from "@angular/platform-browser";
-import { generateRandomString } from '../../utils/utils'; // Import the function
+import { generateRandomString } from '../../utils/utils';
 
 export interface CreateThreadReturn {
   thread: Thread;

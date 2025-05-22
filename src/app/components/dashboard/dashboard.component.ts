@@ -103,7 +103,7 @@ export class DashboardComponent extends Destroyable implements OnInit {
         maxWidth: '80vw',
         data: {
           imageIds: thread.imageIds,
-          initialIndex: this.selectedImageIdx // Pass the currently displayed image index
+          initialIndex: this.selectedImageIdx
         }
       });
     });

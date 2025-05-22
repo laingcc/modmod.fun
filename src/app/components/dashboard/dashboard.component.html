@@ -4,7 +4,6 @@
       <div class="project-image" (click)="launchGallery()">
         <img ngSrc="{{imageUrl}}" alt="Project Image" width="250" height="150">
       </div>
-      <!-- Image previews under the main image -->
       <div class="dashboard-thumbnails" *ngIf="thread.imageIds.length > 1">
         <img
           *ngFor="let imgId of thread.imageIds; let idx = index"

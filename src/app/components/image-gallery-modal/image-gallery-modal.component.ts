@@ -17,7 +17,6 @@ export class ImageGalleryModalComponent {
   show: boolean = true;
   currentIndex = 0;
   imageUrls: string[] = [];
-  loading: boolean = false;
 
   constructor(
     private imageService: ImageService,
@@ -33,7 +32,6 @@ export class ImageGalleryModalComponent {
     this.imageUrls = this.imageIds.map(id =>
       `${this.imageService['environmentService'].apiHost}/images/${id}?full_res=true`
     );
-    // Don't reset currentIndex here, so initialIndex is respected
   }
 
   prevImage() {
