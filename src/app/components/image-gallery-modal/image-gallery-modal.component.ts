@@ -21,18 +21,19 @@ export class ImageGalleryModalComponent {
 
   constructor(
     private imageService: ImageService,
-    @Inject(MAT_DIALOG_DATA) public data: { imageIds: number[] },
+    @Inject(MAT_DIALOG_DATA) public data: { imageIds: number[], initialIndex?: number },
     private dialogRef: MatDialogRef<ImageGalleryModalComponent>
   ) {
     this.imageIds = data.imageIds || [];
     this.loadImages();
+    this.currentIndex = data.initialIndex ?? 0; // Set to initialIndex if provided
   }
 
   loadImages() {
     this.imageUrls = this.imageIds.map(id =>
       `${this.imageService['environmentService'].apiHost}/images/${id}?full_res=true`
     );
-    this.currentIndex = 0;
+    // Don't reset currentIndex here, so initialIndex is respected
   }
 
   prevImage() {

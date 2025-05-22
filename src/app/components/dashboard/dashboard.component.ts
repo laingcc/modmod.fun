@@ -33,6 +33,7 @@ export class DashboardComponent extends Destroyable implements OnInit {
   threadData = new ReplaySubject<Thread>(1)
   id: number;
   imageUrl = '';
+  selectedImageIdx = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,6 +55,7 @@ export class DashboardComponent extends Destroyable implements OnInit {
       ).subscribe(thread => {
         this.threadData.next(thread)
         this.titleService.setTitle((thread.title ?? 'Thread' )+ ' | modmod[.fun]')
+        this.selectedImageIdx = 0;
         const mainImageId = thread.imageIds[0]
         this.imageUrl = `${this.environmentService.apiHost}/images/${mainImageId}`
         console.log(thread)
@@ -100,10 +102,17 @@ export class DashboardComponent extends Destroyable implements OnInit {
         width: '80vw',
         maxWidth: '80vw',
         data: {
-          imageIds: thread.imageIds
+          imageIds: thread.imageIds,
+          initialIndex: this.selectedImageIdx // Pass the currently displayed image index
         }
       });
     });
+  }
+
+  selectImage(idx: number, thread: Thread) {
+    this.selectedImageIdx = idx;
+    const imageId = thread.imageIds[idx];
+    this.imageUrl = `${this.environmentService.apiHost}/images/${imageId}`;
   }
 
 }
