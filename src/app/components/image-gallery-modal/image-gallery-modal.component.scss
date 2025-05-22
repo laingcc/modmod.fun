@@ -9,7 +9,6 @@
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  background: #222;
   z-index: 1001;
   padding: 24px 24px 80px 24px;
   min-width: 600px;
@@ -52,7 +51,6 @@
   object-fit: contain;
 }
 
-// Updated nav-btn styles to use theme variables
 .nav-btn {
   background: var(--color-toolbar-bg, #444);
   border: 2px solid var(--color-toolbar-border, #2fff93);
