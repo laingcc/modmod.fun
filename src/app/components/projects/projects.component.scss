@@ -1,5 +1,5 @@
 .projects-container {
-  padding: 25px;
+  padding: 5px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
 
@@ -16,6 +16,14 @@
 
     app-tripcode-pill{
       margin-left: -5px;
+    }
+
+    .project-footer{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      gap: 10px;
     }
 
   }

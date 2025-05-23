@@ -7,9 +7,15 @@
         <img ngSrc="{{imagehost+project.imageIds[0]}}" alt="Project Image" width="250" height="150">
       </div>
       <h3 class="project-name">{{project.title}}</h3>
-      <app-tripcode-pill
-        [author]="project.author">
-      </app-tripcode-pill>
+      <div class="project-footer">
+        <app-tripcode-pill
+          [author]="project.author">
+        </app-tripcode-pill>
+        <app-tags-mini
+        [threadId]="project.id"
+        [maxTags]="3">
+        </app-tags-mini>
+      </div>
     </div>
   </div>
 </div>
