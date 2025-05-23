@@ -1,0 +1,42 @@
+@import '../partials/_modal.partial.scss';
+
+.modal-content {
+  h2 {
+    margin-bottom: 1em;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+
+    input[type="text"] {
+      padding: 0.5em;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    button[type="submit"] {
+      align-self: flex-end;
+      padding: 0.5em 1.5em;
+      border-radius: 3px;
+      border: none;
+      background: #1976d2;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      &:disabled {
+        background: #aaa;
+        cursor: not-allowed;
+      }
+    }
+
+    .error {
+      color: #c00;
+      font-size: 0.95em;
+      margin-top: 0.5em;
+    }
+  }
+}

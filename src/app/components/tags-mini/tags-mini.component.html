@@ -1,0 +1,5 @@
+<div *ngIf="loading">Loading tags...</div>
+<div *ngIf="!loading && tags.length > 0" class="tags-container">
+  <span *ngFor="let tag of tags" class="tag">{{ tag.name }}</span>
+</div>
+
