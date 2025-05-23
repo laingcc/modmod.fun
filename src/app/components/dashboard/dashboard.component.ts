@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ThreadComponent} from "../thread/thread.component";
 import {Thread, ThreadService} from "../../services/thread.service";
-import {ReplaySubject, take, takeUntil} from "rxjs";
+import {BehaviorSubject, ReplaySubject, Subject, take, takeUntil} from "rxjs";
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, SlicePipe} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ThreadComment} from "../comment/comment.component";
@@ -12,6 +12,8 @@ import {EnvironmentService} from "../../../environments/environment.service";
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {CreateThreadModalComponent} from "../create-thread-modal/create-thread-modal.component";
 import { ImageGalleryModalComponent } from "../image-gallery-modal/image-gallery-modal.component";
+import {TagsMiniComponent} from "../tags-mini/tags-mini.component";
+import {TagsCreateModalComponent} from "../tags-create-modal/tags-create-modal.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +25,8 @@ import { ImageGalleryModalComponent } from "../image-gallery-modal/image-gallery
     TripcodePillComponent,
     NgOptimizedImage,
     MatDialogModule,
-    NgForOf
+    NgForOf,
+    TagsMiniComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -34,6 +37,8 @@ export class DashboardComponent extends Destroyable implements OnInit {
   id: number;
   imageUrl = '';
   selectedImageIdx = 0;
+
+  refresh$ = new Subject<void>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -115,4 +120,11 @@ export class DashboardComponent extends Destroyable implements OnInit {
     this.imageUrl = `${this.environmentService.apiHost}/images/${imageId}`;
   }
 
+  onAddTag() {
+    this.dialog.open(TagsCreateModalComponent, {
+      data:{threadId: this.id},
+    }).afterClosed().subscribe(() => {
+      this.refresh$.next();
+    })
+  }
 }

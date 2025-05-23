@@ -53,6 +53,18 @@ def init_db():
             PRIMARY KEY (threadId, imageId)
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS tags (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL
+        )
+    ''')
+    cursor.execute('''
+      CREATE TABLE IF NOT EXISTS thread_tags (
+            threadId INTEGER NOT NULL REFERENCES threads(id),
+            tagId INTEGER NOT NULL REFERENCES tags(id),
+            PRIMARY KEY (threadId, tagId)
+        )''')
     conn.commit()
     conn.close()
 
@@ -61,6 +73,7 @@ import comments
 import threads
 import users
 import images
+import tags
 
 if __name__ == '__main__':
     init_db()

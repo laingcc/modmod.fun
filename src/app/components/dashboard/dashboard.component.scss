@@ -11,29 +11,36 @@
   letter-spacing: 0.03em;
   font-weight: bold;
   .project-image{
-    height: 150px;
-    width: 250px;
+    min-width: 250px;
+    height: auto;
     border: 1px solid var(--color-toolbar-bg);
-  }
 
-  .project-management{
-    p{
-      color: var(--color-accent);
-      text-shadow:none;
-      cursor:pointer;
-    }
-    .action:hover{
-      text-decoration: underline;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
     }
   }
-
 }
 .active-project::after {
   content:' ';
-  width: 90%;
+  width: 100%;
   border-bottom: 1px solid var(--color-toolbar-border);
   display:inline-block;
 
+}
+.project-management{
+  p{
+    color: var(--color-accent);
+    text-shadow:none;
+    cursor:pointer;
+  }
+  .action:hover{
+    text-decoration: underline;
+  }
+}
+.left-column-layout{
+  flex: 1 1 0;
 }
 
 .left-column-layout::after {
@@ -48,7 +55,7 @@
 .main-column-layout{
   display:flex;
   flex-direction:column;
-  flex: 1 1 0;
+  flex: 3 3 0;
 }
 
 .dashboard-thumbnails {

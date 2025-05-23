@@ -12,6 +12,7 @@ import {TripcodePillComponent} from "../tripcode-pill/tripcode-pill.component";
 import {ImageService} from "../../services/image.service";
 import {EnvironmentService} from "../../../environments/environment.service";
 import {Title} from "@angular/platform-browser";
+import {TagsMiniComponent} from "../tags-mini/tags-mini.component";
 
 @Component({
   selector: 'app-projects',
@@ -24,6 +25,7 @@ import {Title} from "@angular/platform-browser";
     HeadsUpBannerComponent,
     TripcodePillComponent,
     NgOptimizedImage,
+    TagsMiniComponent
   ],
   providers: [ProjectService],
   templateUrl: './projects.component.html',
