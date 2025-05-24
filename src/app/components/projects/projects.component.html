@@ -1,5 +1,9 @@
 <app-heads-up-banner></app-heads-up-banner>
 <div class="add-project-bar"> <p (click)="addProject()">Add Your Project Now</p> </div>
+<div *ngIf="activeTagFilter$ | async as tagFilter" class="tag-filter-indicator">
+  <p>Showing projects with tag: <span class="filter-tag">{{ tagFilter }}</span></p>
+  <button class="clear-filter-btn" (click)="clearTagFilter()">Clear Filter</button>
+</div>
 <div class="projects-container">
   <div class="project" *ngFor="let project of (projects$ | async)">
     <div class="project-container" (click)="navigate(project.id)">
@@ -19,4 +23,3 @@
     </div>
   </div>
 </div>
-
