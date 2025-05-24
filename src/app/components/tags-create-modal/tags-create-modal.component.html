@@ -7,8 +7,13 @@
         formControlName="name"
         placeholder="Tag Name"
         required
-        autocomplete="off"
+        [matAutocomplete]="auto"
       />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
       <button type="submit" [disabled]="loading">Create</button>
       <div *ngIf="error" class="error">{{ error }}</div>
     </form>

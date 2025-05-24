@@ -38,7 +38,7 @@ export class TagsMiniComponent implements OnInit {
     this.loading = true;
     this.tagService.getThreadTags(this.threadId).subscribe({
       next: tags => {
-        this.tags = tags.slice(0, this.maxTags?? -1);
+        this.tags = tags.slice(0, this.maxTags);
         this.loading = false;
       },
       error: () => {
