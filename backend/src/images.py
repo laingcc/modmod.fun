@@ -25,7 +25,7 @@ def upload_image():
         return jsonify({'error': 'No selected file'}), 400
 
     filename = f"{uuid.uuid4().hex}_{file.filename}"
-    img = Image.open(file.read())
+    img = Image.open(file.stream)
     img = ImageOps.exif_transpose(img)  # Handle EXIF orientation
     # Remove EXIF data by creating a new Image object and save as webp
     img_no_exif = Image.new(img.mode, img.size)
