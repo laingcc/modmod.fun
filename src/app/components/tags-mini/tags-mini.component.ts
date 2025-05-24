@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TagService, ThreadTag } from '../../services/tag.service';
 import {CommonModule, NgForOf} from "@angular/common";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-tags-mini',
@@ -21,7 +22,10 @@ export class TagsMiniComponent implements OnInit {
   tags: ThreadTag[] = [];
   loading = false;
 
-  constructor(private tagService: TagService) {}
+  constructor(
+    private tagService: TagService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     if (this.threadId != null) {
@@ -46,5 +50,10 @@ export class TagsMiniComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  navigateToTagFilter(tagName: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.router.navigate([''], { queryParams: { tag: tagName } });
   }
 }

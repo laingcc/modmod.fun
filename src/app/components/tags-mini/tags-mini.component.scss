@@ -2,12 +2,19 @@
   display:flex;
   align-items: flex-end;
   flex-wrap: wrap;
+  margin-top: -12px;
+  margin-bottom: -12px;
 }
 .tag {
   border-radius: 3px;
-  padding: 2px 8px;
   margin-right: 4px;
   font-size: 0.9em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #007bff;
+  }
 
   &::before {
     content:'[';

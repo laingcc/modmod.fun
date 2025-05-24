@@ -24,6 +24,7 @@
       align-items: center;
       margin-top: 10px;
       gap: 10px;
+      font-size:12px;
     }
 
   }
@@ -60,5 +61,46 @@
   p:hover{
     text-decoration: underline;
     cursor: pointer
+  }
+}
+
+.tag-filter-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  p {
+    margin: 0;
+    margin-right: 15px;
+  }
+
+  .filter-tag {
+    font-weight: bold;
+    color: var(--color-accent-2);
+
+    &::before {
+      content: '[';
+    }
+
+    &::after {
+      content: ']';
+    }
+  }
+
+  .clear-filter-btn {
+    padding: 5px 10px;
+    background-color: var(--color-fg);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-accent-2);
+    }
   }
 }
