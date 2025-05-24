@@ -110,7 +110,6 @@ export class ProjectsComponent extends Destroyable implements OnInit {
 
   addProject() {
     this.matDialog.open(CreateThreadModalComponent).afterClosed().subscribe((newThread: CreateThreadReturn) => {
-      console.log(newThread)
       if (newThread){
           this.imageService.createImages(newThread.images).pipe(switchMap(response => {
             newThread.thread.imageIds = response.map(image => image.filename);

@@ -25,7 +25,13 @@ def upload_image():
         return jsonify({'error': 'No selected file'}), 400
 
     filename = f"{uuid.uuid4().hex}_{file.filename}"
-    file.save(os.path.join(UPLOAD_FOLDER, filename))
+    img = Image.open(file.read())
+    img = ImageOps.exif_transpose(img)  # Handle EXIF orientation
+    # Remove EXIF data by creating a new Image object and save as webp
+    img_no_exif = Image.new(img.mode, img.size)
+    img_no_exif.putdata(list(img.getdata()))
+    img_no_exif.save(os.path.join(UPLOAD_FOLDER, filename), "webp", quality=90)
+
 
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
@@ -77,7 +83,12 @@ def upload_images_batch():
                 continue
 
             filename = f"{uuid.uuid4().hex}_{file.filename}"
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            img = Image.open(file.stream)
+            img = ImageOps.exif_transpose(img)  # Handle EXIF orientation
+            # Remove EXIF data by creating a new Image object and save as webp
+            img_no_exif = Image.new(img.mode, img.size)
+            img_no_exif.putdata(list(img.getdata()))
+            img_no_exif.save(os.path.join(UPLOAD_FOLDER, filename), "webp", quality=90)
             cursor.execute('INSERT INTO images (filename) VALUES (?)', (filename,))
             uploaded_files.append({'filename': filename})
 
