@@ -36,6 +36,8 @@ def get_tag(tag_id):
 def create_tag():
     new_tag = request.get_json()
     name = new_tag.get('name')
+    if name:
+        name = name.lower()
     thread_ids = new_tag.get('threadIds', [])
     if not name or not thread_ids:
         return jsonify({'error': 'name and threadIds are required'}), 400
@@ -87,6 +89,8 @@ def get_thread_tags(thread_id):
 def add_tag_to_thread(thread_id):
     tag_data = request.get_json()
     tag_name = tag_data.get('name')
+    if tag_name:
+        tag_name = tag_name.lower()
     if not tag_name:
         return jsonify({'error': 'name is required'}), 400
 
