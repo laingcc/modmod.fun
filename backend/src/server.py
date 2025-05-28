@@ -2,12 +2,21 @@ from flask import Flask
 from flask_cors import CORS
 import sqlite3
 from configs import server_configs
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:*"}})
 
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=[],
+    storage_uri="memory://"
+)
+
 def init_db():
-    conn = sqlite3.connect(server_configs['db_path'])  # Updated
+    conn = sqlite3.connect(server_configs['db_path'])
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS comments (
@@ -68,7 +77,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Feature Imports
 import comments
 import threads
 import users

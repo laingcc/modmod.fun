@@ -3,7 +3,8 @@ from __main__ import app
 from flask import request, jsonify
 from configs import server_configs
 
-# Helper to get DB connection
+from __main__ import limiter
+
 def get_db():
     return sqlite3.connect(server_configs['db_path'])
 
@@ -33,6 +34,7 @@ def get_tag(tag_id):
     return jsonify({'id': tag[0], 'name': tag[1], 'threadIds': thread_ids})
 
 @app.route('/tags', methods=['POST'])
+@limiter.limit(server_configs['rate_limit'])
 def create_tag():
     new_tag = request.get_json()
     name = new_tag.get('name')
@@ -44,7 +46,6 @@ def create_tag():
 
     with get_db() as conn:
         cursor = conn.cursor()
-        # Check if tag already exists
         cursor.execute('SELECT id FROM tags WHERE name = ?', (name,))
         tag_row = cursor.fetchone()
         if tag_row:
@@ -53,7 +54,6 @@ def create_tag():
             cursor.execute('INSERT INTO tags (name) VALUES (?)', (name,))
             tag_id = cursor.lastrowid
 
-        # Insert into thread_tags
         for thread_id in thread_ids:
             cursor.execute('SELECT 1 FROM thread_tags WHERE tagId = ? AND threadId = ?', (tag_id, thread_id))
             if not cursor.fetchone():
@@ -65,9 +65,7 @@ def create_tag():
 def delete_tag(tag_id):
     with get_db() as conn:
         cursor = conn.cursor()
-        # Remove all thread associations
         cursor.execute('DELETE FROM thread_tags WHERE tagId = ?', (tag_id,))
-        # Remove the tag itself
         cursor.execute('DELETE FROM tags WHERE id = ?', (tag_id,))
         conn.commit()
     return '', 204
@@ -86,6 +84,7 @@ def get_thread_tags(thread_id):
     return jsonify([{'id': t[0], 'name': t[1]} for t in tags])
 
 @app.route('/threads/<int:thread_id>/tags', methods=['POST'])
+@limiter.limit(server_configs['rate_limit'])
 def add_tag_to_thread(thread_id):
     tag_data = request.get_json()
     tag_name = tag_data.get('name')
@@ -96,7 +95,6 @@ def add_tag_to_thread(thread_id):
 
     with get_db() as conn:
         cursor = conn.cursor()
-        # Check if tag exists
         cursor.execute('SELECT id FROM tags WHERE name = ?', (tag_name,))
         tag_row = cursor.fetchone()
         if tag_row:
@@ -105,7 +103,6 @@ def add_tag_to_thread(thread_id):
             cursor.execute('INSERT INTO tags (name) VALUES (?)', (tag_name,))
             tag_id = cursor.lastrowid
 
-        # Add association if not exists
         cursor.execute('SELECT 1 FROM thread_tags WHERE tagId = ? AND threadId = ?', (tag_id, thread_id))
         if not cursor.fetchone():
             cursor.execute('INSERT INTO thread_tags (tagId, threadId) VALUES (?, ?)', (tag_id, thread_id))

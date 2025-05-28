@@ -6,8 +6,10 @@ from flask import request, jsonify
 from configs import server_configs
 from server_utils.server_utils import get_tripcode
 
+from __main__ import limiter
 
 @app.route('/threads/<int:thread_id>/comments', methods=['POST'])
+@limiter.limit(server_configs['rate_limit'])
 def create_comment(thread_id):
     new_comment = request.get_json()
     with sqlite3.connect(server_configs['db_path']) as conn:
@@ -52,4 +54,3 @@ def delete_comment(thread_id, comment_id):
         conn.commit()
 
     return '', 204
-
