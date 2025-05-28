@@ -6,6 +6,8 @@ from flask import request, jsonify
 from configs import server_configs
 from server_utils.server_utils import get_tripcode
 
+from __main__ import limiter
+
 @app.route('/threads', methods=['GET'])
 def get_threads():
     with sqlite3.connect(server_configs['db_path']) as conn:
@@ -61,6 +63,7 @@ def get_thread(thread_id):
     })
 
 @app.route('/threads', methods=['POST'])
+@limiter.limit(server_configs['rate_limit'])
 def create_thread():
     new_thread = request.get_json()
     with sqlite3.connect(server_configs['db_path']) as conn:

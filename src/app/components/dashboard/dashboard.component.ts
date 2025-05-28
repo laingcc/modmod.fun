@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ThreadComponent} from "../thread/thread.component";
 import {Thread, ThreadService} from "../../services/thread.service";
-import {BehaviorSubject, ReplaySubject, Subject, take, takeUntil} from "rxjs";
-import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage, SlicePipe} from "@angular/common";
+import {ReplaySubject, Subject, take, takeUntil} from "rxjs";
+import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {ThreadComment} from "../comment/comment.component";
 import {Title} from "@angular/platform-browser";

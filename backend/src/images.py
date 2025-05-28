@@ -3,10 +3,11 @@ import sqlite3
 import uuid
 from flask import request, jsonify, send_from_directory
 from __main__ import app
-from PIL import Image, ImageOps  # Add this import for image processing
+from PIL import Image, ImageOps
 
 from configs import server_configs
-from server_utils.server_utils import get_tripcode
+
+from __main__ import limiter
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -15,6 +16,7 @@ THUMBNAIL_FOLDER = 'thumbnails'
 os.makedirs(THUMBNAIL_FOLDER, exist_ok=True)
 
 @app.route('/images', methods=['POST'])
+@limiter.limit(server_configs['rate_limit'])
 def upload_image():
     if 'file' not in request.files:
         return jsonify({'error': 'No file or threadId provided'}), 400
@@ -26,12 +28,10 @@ def upload_image():
 
     filename = f"{uuid.uuid4().hex}_{file.filename}"
     img = Image.open(file.stream)
-    img = ImageOps.exif_transpose(img)  # Handle EXIF orientation
-    # Remove EXIF data by creating a new Image object and save as webp
+    img = ImageOps.exif_transpose(img)
     img_no_exif = Image.new(img.mode, img.size)
     img_no_exif.putdata(list(img.getdata()))
     img_no_exif.save(os.path.join(UPLOAD_FOLDER, filename), "webp", quality=90)
-
 
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
@@ -47,7 +47,6 @@ def get_image(filename):
     if full_res:
         return send_from_directory(UPLOAD_FOLDER, filename)
 
-    # Generate and serve a thumbnail
     thumbnail_path = os.path.join(THUMBNAIL_FOLDER, filename)
     original_path = os.path.join(UPLOAD_FOLDER, filename)
 
@@ -67,6 +66,7 @@ def get_image(filename):
     return send_from_directory(THUMBNAIL_FOLDER, filename)
 
 @app.route('/images/batch', methods=['POST'])
+@limiter.limit(server_configs['rate_limit'])
 def upload_images_batch():
     if 'files' not in request.files:
         return jsonify({'error': 'No files provided'}), 400
@@ -84,8 +84,7 @@ def upload_images_batch():
 
             filename = f"{uuid.uuid4().hex}_{file.filename}"
             img = Image.open(file.stream)
-            img = ImageOps.exif_transpose(img)  # Handle EXIF orientation
-            # Remove EXIF data by creating a new Image object and save as webp
+            img = ImageOps.exif_transpose(img)
             img_no_exif = Image.new(img.mode, img.size)
             img_no_exif.putdata(list(img.getdata()))
             img_no_exif.save(os.path.join(UPLOAD_FOLDER, filename), "webp", quality=90)
@@ -95,4 +94,3 @@ def upload_images_batch():
         conn.commit()
 
     return jsonify(uploaded_files), 201
-

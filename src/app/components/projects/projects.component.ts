@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Project, ProjectService} from "../../services/project.service";
-import {AsyncPipe, CommonModule, NgForOf, NgOptimizedImage, SlicePipe} from "@angular/common";
+import {AsyncPipe, CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateThreadModalComponent, CreateThreadReturn} from "../create-thread-modal/create-thread-modal.component";
