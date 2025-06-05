@@ -44,3 +44,5 @@ Thumbs.db
 
 /backend/src/env
 /backend/src/database.db
+/backend/src/uploads/
+/backend/src/thumbnails/
