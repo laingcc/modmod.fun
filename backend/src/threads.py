@@ -1,4 +1,5 @@
 import sqlite3
+import logging
 
 from flask import request, jsonify, Blueprint
 
@@ -9,8 +10,11 @@ from server_utils.server_utils import get_tripcode
 app = Blueprint('threads', __name__)
 app_limited = Blueprint('threads_limited', __name__)
 
+logger = logging.getLogger(__name__)
+
 @app.route('/threads', methods=['GET'])
 def get_threads():
+    logger.info("Fetching all threads...")
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM threads')
@@ -30,14 +34,20 @@ def get_threads():
                 'imageIds': image_ids
             })
 
+    logger.info(f"Fetched {len(thread_data)} threads.")
     return jsonify(thread_data)
 
 @app.route('/threads/<int:thread_id>', methods=['GET'])
 def get_thread(thread_id):
+    logger.info(f"Fetching thread with ID {thread_id}...")
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM threads WHERE id = ?', (thread_id,))
         thread = cursor.fetchone()
+
+        if not thread:
+            logger.error(f"Thread with ID {thread_id} not found.")
+            return jsonify({'error': 'Thread not found'}), 404
 
         cursor.execute('SELECT imageId FROM thread_images WHERE threadId = ?', (thread_id,))
         image_ids = [row[0] for row in cursor.fetchall()]
@@ -45,6 +55,7 @@ def get_thread(thread_id):
         cursor.execute('SELECT * FROM comments WHERE threadId = ?', (thread_id,))
         comments = cursor.fetchall()
 
+    logger.info(f"Fetched thread with ID {thread_id}.")
     return jsonify({
         'id': thread[0],
         'title': thread[1],
@@ -65,6 +76,7 @@ def get_thread(thread_id):
 
 @app_limited.route('/threads', methods=['POST'])
 def create_thread():
+    logger.info("Creating a new thread...")
     new_thread = request.get_json()
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
@@ -78,17 +90,24 @@ def create_thread():
         conn.commit()
 
     new_thread['id'] = thread_id
+    logger.info(f"Thread created with ID {thread_id}.")
     return jsonify(new_thread), 201
 
 @app.route('/threads/<int:thread_id>', methods=['PUT'])
 def update_thread(thread_id):
+    logger.info(f"Updating thread with ID {thread_id}...")
     updated_thread = request.get_json()['thread']
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT author FROM threads WHERE id = ?', (thread_id,))
         existing_thread = cursor.fetchone()
 
-        if existing_thread is None or get_tripcode(updated_thread['author'], server_configs['salt']) != existing_thread[0]:
+        if not existing_thread:
+            logger.error(f"Thread with ID {thread_id} not found.")
+            return jsonify({'error': 'Thread not found'}), 404
+
+        if get_tripcode(updated_thread['author'], server_configs['salt']) != existing_thread[0]:
+            logger.error(f"Unauthorized update attempt for thread ID {thread_id}.")
             return jsonify({'error': 'Unauthorized'}), 403
 
         cursor.execute('UPDATE threads SET title = ?, author = ?, date = ?, description = ? WHERE id = ?',
@@ -100,14 +119,22 @@ def update_thread(thread_id):
 
         conn.commit()
 
+    logger.info(f"Thread with ID {thread_id} updated.")
     return jsonify(updated_thread)
 
 @app.route('/threads/<int:thread_id>', methods=['DELETE'])
 def delete_thread(thread_id):
+    logger.info(f"Deleting thread with ID {thread_id}...")
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
+        cursor.execute('SELECT id FROM threads WHERE id = ?', (thread_id,))
+        if not cursor.fetchone():
+            logger.error(f"Thread with ID {thread_id} not found.")
+            return jsonify({'error': 'Thread not found'}), 404
+
         cursor.execute('DELETE FROM threads WHERE id = ?', (thread_id,))
         cursor.execute('DELETE FROM comments WHERE threadId = ?', (thread_id,))
         conn.commit()
 
+    logger.info(f"Thread with ID {thread_id} deleted.")
     return '', 204
