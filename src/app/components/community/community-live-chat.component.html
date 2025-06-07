@@ -1,0 +1,12 @@
+<h3>Live Chat</h3>
+<div class="chat-window">
+  <div class="chat-messages">
+    <div class="chat-message" *ngFor="let msg of messages">
+      [{{msg.user}}]: {{msg.text}}
+    </div>
+  </div>
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="input" placeholder="Type a message..." (keyup.enter)="sendMessage()" />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>

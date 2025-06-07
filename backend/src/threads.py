@@ -1,12 +1,13 @@
 import sqlite3
-from __main__ import app
 
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 
 from configs import server_configs
 from server_utils.server_utils import get_tripcode
 
-from __main__ import limiter
+
+app = Blueprint('threads', __name__)
+app_limited = Blueprint('threads_limited', __name__)
 
 @app.route('/threads', methods=['GET'])
 def get_threads():
@@ -62,8 +63,7 @@ def get_thread(thread_id):
         } for c in comments]
     })
 
-@app.route('/threads', methods=['POST'])
-@limiter.limit(server_configs['rate_limit'])
+@app_limited.route('/threads', methods=['POST'])
 def create_thread():
     new_thread = request.get_json()
     with sqlite3.connect(server_configs['db_path']) as conn:

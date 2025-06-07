@@ -1,13 +1,11 @@
 import os
 import sqlite3
 import uuid
-from flask import request, jsonify, send_from_directory
-from __main__ import app
+from flask import request, jsonify, send_from_directory, Blueprint
 from PIL import Image, ImageOps
 
 from configs import server_configs
 
-from __main__ import limiter
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -15,8 +13,10 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 THUMBNAIL_FOLDER = 'thumbnails'
 os.makedirs(THUMBNAIL_FOLDER, exist_ok=True)
 
-@app.route('/images', methods=['POST'])
-@limiter.limit(server_configs['rate_limit'])
+app = Blueprint('images', __name__)
+app_limited = Blueprint('images_limited', __name__)
+
+@app_limited.route('/images', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
         return jsonify({'error': 'No file or threadId provided'}), 400
@@ -65,8 +65,7 @@ def get_image(filename):
 
     return send_from_directory(THUMBNAIL_FOLDER, filename)
 
-@app.route('/images/batch', methods=['POST'])
-@limiter.limit(server_configs['rate_limit'])
+@app_limited.route('/images/batch', methods=['POST'])
 def upload_images_batch():
     if 'files' not in request.files:
         return jsonify({'error': 'No files provided'}), 400

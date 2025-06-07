@@ -1,15 +1,14 @@
 import sqlite3
-from __main__ import app
 
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 
 from configs import server_configs
 from server_utils.server_utils import get_tripcode
 
-from __main__ import limiter
+app = Blueprint('comments', __name__)
+app_limited = Blueprint('comments_limited', __name__)
 
-@app.route('/threads/<int:thread_id>/comments', methods=['POST'])
-@limiter.limit(server_configs['rate_limit'])
+@app_limited.route('/threads/<int:thread_id>/comments', methods=['POST'])
 def create_comment(thread_id):
     new_comment = request.get_json()
     with sqlite3.connect(server_configs['db_path']) as conn:

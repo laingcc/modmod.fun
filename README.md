@@ -8,7 +8,6 @@ Welcome to `modmod.fun`, a collaborative platform for sharing and discussing pro
 - **Community Discussions**: Engage in threaded discussions with support for nested comments and quoting.
 - **Tripcode Support**: Optionally secure your identity with tripcodes for added authenticity.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
-- **Interactive Previews**: Real-time previews for posts and comments.
 
 ## Development Setup
 
@@ -30,45 +29,19 @@ Welcome to `modmod.fun`, a collaborative platform for sharing and discussing pro
    npm install
    ```
 
-3. Start the development server:
+3. Start the  frontend development server:
    ```bash
    ng serve
+   ```
+   
+4. Start the backend server:
+   ```bash
+   gunicorn -b 0.0.0.0:5000 'server:app'
    ```
 
 4. Open your browser and navigate to `http://localhost:4200/`.
 
 The application will automatically reload if you make changes to the source files.
-
-## Code Scaffolding
-
-Use the Angular CLI to generate new components, directives, pipes, services, and more:
-```bash
-ng generate component component-name
-ng generate directive|pipe|service|class|guard|interface|enum|module
-```
-
-## Building the Project
-
-To build the project for production:
-```bash
-ng build
-```
-The build artifacts will be stored in the `dist/` directory.
-
-## Running Unit Tests
-
-Execute unit tests using [Karma](https://karma-runner.github.io):
-```bash
-ng test
-```
-
-## Running End-to-End Tests
-
-Run end-to-end tests using a testing framework of your choice:
-```bash
-ng e2e
-```
-Note: You may need to install an additional package for end-to-end testing.
 
 ## File Structure
 
@@ -100,7 +73,3 @@ This project is licensed under the GNU General Public License v3.0. See the `LIC
 ## Acknowledgments
 
 Special thanks to the open-source community for providing the tools and inspiration to build this platform.
-
-## Further Help
-
-For more information on Angular CLI, visit the [Angular CLI Overview and Command Reference](https://angular.io/cli).
