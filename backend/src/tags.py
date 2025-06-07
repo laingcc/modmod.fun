@@ -1,9 +1,9 @@
 import sqlite3
-from __main__ import app
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 from configs import server_configs
 
-from __main__ import limiter
+app = Blueprint('tags', __name__)
+app_limited = Blueprint('tags_limited', __name__)
 
 def get_db():
     return sqlite3.connect(server_configs['db_path'])
@@ -33,8 +33,7 @@ def get_tag(tag_id):
         thread_ids = [row[0] for row in cursor.fetchall()]
     return jsonify({'id': tag[0], 'name': tag[1], 'threadIds': thread_ids})
 
-@app.route('/tags', methods=['POST'])
-@limiter.limit(server_configs['rate_limit'])
+@app_limited.route('/tags', methods=['POST'])
 def create_tag():
     new_tag = request.get_json()
     name = new_tag.get('name')
@@ -83,8 +82,7 @@ def get_thread_tags(thread_id):
         tags = cursor.fetchall()
     return jsonify([{'id': t[0], 'name': t[1]} for t in tags])
 
-@app.route('/threads/<int:thread_id>/tags', methods=['POST'])
-@limiter.limit(server_configs['rate_limit'])
+@app_limited.route('/threads/<int:thread_id>/tags', methods=['POST'])
 def add_tag_to_thread(thread_id):
     tag_data = request.get_json()
     tag_name = tag_data.get('name')

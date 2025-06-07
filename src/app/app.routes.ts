@@ -17,8 +17,8 @@ export const routes: Routes = [
     path: 'tripcodes',
     component: TripcodeFaqComponent
   },
-  {
-    path: 'community',
-    component: CommunityComponent
-  }
+  // {
+  //   path: 'community',
+  //   component: CommunityComponent
+  // }
 ];

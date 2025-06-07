@@ -5,6 +5,18 @@ from configs import server_configs
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
+from tags import app as tags_app
+from tags import app_limited as tags_app_limited
+
+from comments import app as comments_app
+from comments import app_limited as comments_app_limited
+
+from threads import app as threads_app
+from threads import app_limited as threads_app_limited
+
+from images import app as images_app
+from images import app_limited as images_app_limited
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:*"}})
 
@@ -77,12 +89,26 @@ def init_db():
     conn.commit()
     conn.close()
 
-import comments
-import threads
-import users
-import images
-import tags
+#setup rate limiting
+limiter.limit(server_configs['rate_limit'])(tags_app_limited)
+limiter.limit(server_configs['rate_limit'])(comments_app_limited)
+limiter.limit(server_configs['rate_limit'])(threads_app_limited)
+limiter.limit(server_configs['rate_limit'])(images_app_limited)
 
-if __name__ == '__main__':
-    init_db()
-    app.run(debug=True)
+# Register blueprints for each module
+app.register_blueprint(tags_app)
+app.register_blueprint(tags_app_limited)
+app.register_blueprint(comments_app)
+app.register_blueprint(comments_app_limited)
+app.register_blueprint(threads_app)
+app.register_blueprint(threads_app_limited)
+app.register_blueprint(images_app)
+app.register_blueprint(images_app_limited)
+
+
+def run():
+  init_db()
+  app.run()
+
+# if __name__ == '__main__':
+#   run()
