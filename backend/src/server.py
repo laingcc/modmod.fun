@@ -19,7 +19,7 @@ from images import app as images_app
 from images import app_limited as images_app_limited
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:*"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:*", "https://modmod.fun*"]}})
 
 limiter = Limiter(
     get_remote_address,

@@ -49,7 +49,16 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": true,
+              "extractLicenses": true,
+              "sourceMap": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -61,7 +70,8 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
-            }
+            },
+
           },
           "defaultConfiguration": "production"
         },
