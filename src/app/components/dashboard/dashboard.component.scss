@@ -1,4 +1,3 @@
-
 .page-container{
   display:flex;
   flex-direction:row;
@@ -79,5 +78,24 @@
   background: #222;
   &.selected {
     border: 2px solid var(--color-accent, #ff007c);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    flex-direction: column;
+  }
+
+  .left-column-layout {
+    flex: 1 1 auto;
+    margin-bottom: 16px;
+  }
+
+  .main-column-layout {
+    flex: 1 1 auto;
+  }
+
+  .left-column-layout::after {
+    content: none;
   }
 }

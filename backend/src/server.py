@@ -129,11 +129,3 @@ app.register_blueprint(threads_app)
 app.register_blueprint(threads_app_limited)
 app.register_blueprint(images_app)
 app.register_blueprint(images_app_limited)
-
-
-def run():
-  init_db()
-  app.run()
-
-# if __name__ == '__main__':
-#   run()

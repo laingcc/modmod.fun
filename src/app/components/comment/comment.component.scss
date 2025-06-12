@@ -11,16 +11,25 @@
   color: var(--color-fg-2);
   margin: -20px -20px 0px -20px;
   padding: 5px 10px;
-  display: flex;
 
-  span{
-    padding: 5px;
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin-bottom: 5px;
   }
-  app-tripcode-pill{
-    margin-left: -10px;
+
+  .header-details {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
   }
+
   .number{
     justify-self: end;
+    font-size: 0.8rem;
   }
   .quote-number {
     margin-left: 10px;
@@ -38,8 +47,29 @@
     font-size: 0.8rem;
     color: var(--color-fg-2);
   }
-}
-.fever-count {
-  margin-left: auto;
+  .fever-count {
+    margin-left: auto;
+  }
 }
 
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+
+    .header-top {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
+
+    .header-details {
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .header-bottom {
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+  }
+}
