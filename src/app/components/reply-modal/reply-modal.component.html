@@ -1,10 +1,14 @@
 <div class="modal">
   <div class="modal-content">
     <h2>Reply</h2>
-    <form [formGroup]="form" (ngSubmit)="sendComment()"><textarea id='content' formControlName="content" placeholder="Enter your comment" required></textarea>
-    <input type="text" formControlName='author' id="author" placeholder="Tripcode Password" required>
-    <button type="submit">Send</button>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="sendComment()">
+      <textarea id='content' formControlName="content" placeholder="Enter your comment" required></textarea>
+      <input type="text" formControlName='author' id="author" placeholder="Tripcode Password" required>
+      <input type="file" (change)="onFileSelected($event)" multiple accept="image/*">
+      <div class="image-preview" *ngIf="imagePreviews.length">
+        <img *ngFor="let img of imagePreviews" [src]="img" alt="Preview" style="max-width: 100px; max-height: 100px; margin: 4px;" />
+      </div>
+      <button type="submit">Send</button>
+    </form>
   </div>
 </div>
-

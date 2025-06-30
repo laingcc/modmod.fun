@@ -70,7 +70,8 @@ def get_thread(thread_id):
             'content': c[2],
             'date': c[3],
             'feverCount': c[4],
-            'parentId': c[7]
+            'parentId': c[7],
+            'images': [img[0] for img in cursor.execute('SELECT imageId FROM comment_images WHERE commentId = ?', (c[0],)).fetchall()]
         } for c in comments]
     })
 
