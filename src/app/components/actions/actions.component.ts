@@ -23,7 +23,6 @@ export class ActionsComponent {
   }
   async reply() {
     this.dialog.open(ReplyModalComponent).afterClosed().subscribe(async (result: any) => {
-      console.log("lll")
 
       if (result && (result.content || result.author)) {
         let imageUrls: string[] = [];
