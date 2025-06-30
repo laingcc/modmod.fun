@@ -2,7 +2,7 @@ import os
 import sqlite3
 import uuid
 from flask import request, jsonify, send_from_directory, Blueprint
-from PIL import Image, ImageOps
+from PIL import Image
 import logging
 
 from configs import server_configs
@@ -31,11 +31,7 @@ def upload_image():
         return jsonify({'error': 'No selected file'}), 400
 
     filename = f"{uuid.uuid4().hex}_{file.filename}"
-    img = Image.open(file.stream)
-    img = ImageOps.exif_transpose(img)
-    img_no_exif = Image.new(img.mode, img.size)
-    img_no_exif.putdata(list(img.getdata()))
-    img_no_exif.save(os.path.join(UPLOAD_FOLDER, filename), "webp", quality=90)
+    file.save(os.path.join(UPLOAD_FOLDER, filename))  # Save the file directly without conversion
 
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
@@ -59,13 +55,13 @@ def get_image(filename):
     if not os.path.exists(thumbnail_path):
         try:
             with Image.open(original_path) as img:
-                thumbnail_size = (250,150)
-                background = Image.new('RGB', thumbnail_size, (0,0,0))
+                thumbnail_size = (250, 150)
+                background = Image.new('RGB', thumbnail_size, (0, 0, 0))
                 img.thumbnail(thumbnail_size, Image.LANCZOS)
 
                 offset = ((thumbnail_size[0] - img.width) // 2, (thumbnail_size[1] - img.height) // 2)
                 background.paste(img, offset)
-                background.save(thumbnail_path, "webp", quality=90)
+                background.save(thumbnail_path)  # Save thumbnail without specifying format
         except Exception as e:
             return jsonify({'error': f'Failed to generate thumbnail: {str(e)}'}), 500
 
@@ -90,11 +86,7 @@ def upload_images_batch():
                 continue
 
             filename = f"{uuid.uuid4().hex}_{file.filename}"
-            img = Image.open(file.stream)
-            img = ImageOps.exif_transpose(img)
-            img_no_exif = Image.new(img.mode, img.size)
-            img_no_exif.putdata(list(img.getdata()))
-            img_no_exif.save(os.path.join(UPLOAD_FOLDER, filename), "webp", quality=90)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))  # Save the file directly without conversion
             cursor.execute('INSERT INTO images (filename) VALUES (?)', (filename,))
             uploaded_files.append({'filename': filename})
 
