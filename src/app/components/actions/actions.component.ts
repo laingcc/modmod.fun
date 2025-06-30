@@ -28,9 +28,8 @@ export class ActionsComponent {
         let imageUrls: string[] = [];
         if (result.files && result.files.length) {
           try {
-            imageUrls = await Promise.all(
-              result.files.map((file: File) => this.imageService.createImage(file).toPromise())
-            )
+            const images = await this.imageService.createImages(result.files).toPromise();
+            imageUrls = images?.map(image => image.filename) ?? [];
           } catch (e) {
             alert('Image upload failed.');
             return;

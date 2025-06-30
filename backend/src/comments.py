@@ -39,7 +39,7 @@ def create_comment(thread_id):
             cursor.execute('''
                 INSERT INTO comment_images (commentId, imageId)
                 VALUES (?, ?)
-            ''', (comment_id, image['filename']))
+            ''', (comment_id, image))
         conn.commit()
 
     logger.info(f"Comment created for thread ID {thread_id}.")

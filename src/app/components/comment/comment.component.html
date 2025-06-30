@@ -19,14 +19,20 @@
   <div class="content-container">
     <div class="comment-gallery" *ngIf="Comment.images?.length">
       <div class="carousel">
-        <button class="carousel-control prev" (click)="prevImage()">&#8249;</button>
+        <button
+          class="carousel-control prev"
+          *ngIf="Comment.images!.length > 1"
+          (click)="prevImage()">&#8249;</button>
         <img
           [src]="imageUrl(Comment.images![currentImageIndex])"
           alt="Comment image"
           class="carousel-image"
           (click)="toggleImageModal()"
         />
-        <button class="carousel-control next" (click)="nextImage()">&#8250;</button>
+        <button
+          class="carousel-control next"
+          *ngIf="Comment.images!.length > 1"
+          (click)="nextImage()">&#8250;</button>
       </div>
       <div class="image-indicator">
         Image {{ currentImageIndex + 1 }} of {{ Comment.images!.length }}
