@@ -96,6 +96,13 @@ def init_db():
             )
         ''')
         cursor.execute('''
+             CREATE TABLE IF NOT EXISTS comment_images (
+                commentId INTEGER NOT NULL REFERENCES comments(id),
+                imageId INTEGER NOT NULL REFERENCES images(id),
+                PRIMARY KEY (commentId, imageId)
+            )
+        ''')
+        cursor.execute('''
             CREATE TABLE IF NOT EXISTS tags (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL

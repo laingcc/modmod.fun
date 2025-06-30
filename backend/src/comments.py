@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 def create_comment(thread_id):
     logger.info(f"Creating a comment for thread ID {thread_id}...")
     new_comment = request.get_json()
+    print(new_comment)
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -28,6 +29,17 @@ def create_comment(thread_id):
             thread_id,
             new_comment.get('parentId')
         ))
+        conn.commit()
+
+        # Get the generated comment_id
+        comment_id = cursor.lastrowid
+
+        # Insert images into comment_images table
+        for image in new_comment.get('images', []):
+            cursor.execute('''
+                INSERT INTO comment_images (commentId, imageId)
+                VALUES (?, ?)
+            ''', (comment_id, image['filename']))
         conn.commit()
 
     logger.info(f"Comment created for thread ID {thread_id}.")
