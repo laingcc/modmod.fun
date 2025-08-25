@@ -8,7 +8,8 @@
       <div class="image-preview" *ngIf="imagePreviews.length">
         <img *ngFor="let img of imagePreviews" [src]="img" alt="Preview" style="max-width: 100px; max-height: 100px; margin: 4px;" />
       </div>
-      <button type="submit">Send</button>
+      <ngx-captcha [siteKey]="hcaptcha_site_key" (success)="onCaptchaSuccess($event)"></ngx-captcha>
+      <button type="submit" [disabled]="!hcaptcha_token">Send</button>
     </form>
   </div>
 </div>

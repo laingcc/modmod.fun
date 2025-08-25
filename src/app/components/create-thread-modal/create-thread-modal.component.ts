@@ -5,10 +5,13 @@ import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {CommonModule, NgIf} from "@angular/common";
 import {MarkdownComponent} from "ngx-markdown";
 import { generateRandomString } from '../../utils/utils';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { environment } from '../../../environments/environment';
 
 export interface CreateThreadReturn {
   thread: Thread;
   images: File[];
+  hcaptcha_token: string;
 }
 @Component({
   selector: 'app-create-thread-modal',
@@ -19,7 +22,8 @@ export interface CreateThreadReturn {
     FormsModule,
     MarkdownComponent,
     NgIf,
-    CommonModule
+    CommonModule,
+    NgxCaptchaModule
   ]
 })
 export class CreateThreadModalComponent {
@@ -35,6 +39,8 @@ export class CreateThreadModalComponent {
 
   selectedFiles: { file: File; preview: string }[] = [];
   fileInputElement: HTMLInputElement | null = null;
+  hcaptcha_token: string | null = null;
+  hcaptcha_site_key = environment.hcaptcha_site_key;
 
   constructor(
     private dialogRef: MatDialogRef<CreateThreadModalComponent, CreateThreadReturn>,
@@ -46,12 +52,16 @@ export class CreateThreadModalComponent {
     }
   }
 
+  onCaptchaSuccess(token: string) {
+    this.hcaptcha_token = token;
+  }
+
   onSubmit() {
     // If the author (tripcode) is not provided, generate a random string
     if (!this.thread.author || this.thread.author.trim() === '') {
       this.thread.author = generateRandomString(12); // Use the imported function
     }
-    this.dialogRef.close({ thread: this.thread, images: this.selectedFiles.map(f => f.file) });
+    this.dialogRef.close({ thread: this.thread, images: this.selectedFiles.map(f => f.file), hcaptcha_token: this.hcaptcha_token });
   }
 
   onPost(form:any){

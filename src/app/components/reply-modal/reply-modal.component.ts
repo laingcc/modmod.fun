@@ -3,6 +3,8 @@ import { MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { generateRandomString } from '../../utils/utils'; // Import the function
 import { CommonModule } from '@angular/common';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-reply-modal',
@@ -10,7 +12,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    NgxCaptchaModule
   ],
   templateUrl: './reply-modal.component.html',
   styleUrl: './reply-modal.component.scss'
@@ -19,6 +22,8 @@ export class ReplyModalComponent {
   public form: FormGroup;
   imageFiles: File[] = [];
   imagePreviews: string[] = [];
+  hcaptcha_token: string | null = null;
+  hcaptcha_site_key = environment.hcaptcha_site_key;
 
   public constructor(
     private dialogRef: MatDialogRef<ReplyModalComponent>,
@@ -28,6 +33,10 @@ export class ReplyModalComponent {
       content: ['', Validators.required],
       author: ['', Validators.required]
     });
+  }
+
+  onCaptchaSuccess(token: string) {
+    this.hcaptcha_token = token;
   }
 
   onFileSelected(event: Event) {
@@ -54,7 +63,8 @@ export class ReplyModalComponent {
     this.dialogRef.close({
       content: formValue.content,
       author: formValue.author,
-      files: this.imageFiles
+      files: this.imageFiles,
+      hcaptcha_token: this.hcaptcha_token
     });
   }
 }

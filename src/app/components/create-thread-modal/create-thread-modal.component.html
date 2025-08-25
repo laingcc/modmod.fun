@@ -20,6 +20,7 @@
             <button type="button" class="remove-image" (click)="removeImage(i)">x</button>
           </div>
         </div>
+        <ngx-captcha [siteKey]="hcaptcha_site_key" (success)="onCaptchaSuccess($event)"></ngx-captcha>
       </form>
       <div>
         <label for="preview">Show Post Preview</label>
@@ -36,5 +37,5 @@
       </div>
     </div>
   </div>
-  <button class="modal-submit" (click)="onPost(form)">Save</button>
+  <button class="modal-submit" (click)="onPost(form)" [disabled]="!hcaptcha_token">Save</button>
 </div>

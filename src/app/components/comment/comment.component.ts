@@ -14,6 +14,7 @@ export type ThreadComment = {
   feverCount: number,
   parentId?: number,
   images?: string[], // Array of image URLs for gallery
+  hcaptcha_token?: string,
 }
 
 @Component({

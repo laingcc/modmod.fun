@@ -4,6 +4,7 @@ import logging
 from flask import request, jsonify, Blueprint
 
 from configs import server_configs
+from hcaptcha import verify_hcaptcha
 from server_utils.server_utils import get_tripcode
 
 app = Blueprint('comments', __name__)
@@ -14,7 +15,13 @@ logger = logging.getLogger(__name__)
 @app_limited.route('/threads/<int:thread_id>/comments', methods=['POST'])
 def create_comment(thread_id):
     logger.info(f"Creating a comment for thread ID {thread_id}...")
-    new_comment = request.get_json()
+    data = request.get_json()
+    new_comment = data.get('comment')
+    hcaptcha_token = data.get('hcaptcha_token')
+
+    if not hcaptcha_token or not verify_hcaptcha(hcaptcha_token, request.remote_addr):
+        logger.error("hCaptcha verification failed.")
+        return jsonify({'error': 'hCaptcha verification failed'}), 400
     print(new_comment)
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()

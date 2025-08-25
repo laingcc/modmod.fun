@@ -1,4 +1,5 @@
 
 export interface Environment {
-  host: string
+  host: string,
+  hcaptcha_site_key: string
 }

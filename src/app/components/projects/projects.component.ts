@@ -113,7 +113,7 @@ export class ProjectsComponent extends Destroyable implements OnInit {
       if (newThread){
           this.imageService.createImages(newThread.images).pipe(switchMap(response => {
             newThread.thread.imageIds = response.map(image => image.filename);
-            return this.threadService.createThread(newThread.thread)
+            return this.threadService.createThread(newThread.thread, newThread.hcaptcha_token)
 
           })).subscribe(response => {
           this.router.navigate(['project',{id:response.id}])

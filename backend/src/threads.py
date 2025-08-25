@@ -4,6 +4,7 @@ import logging
 from flask import request, jsonify, Blueprint
 
 from configs import server_configs
+from hcaptcha import verify_hcaptcha
 from server_utils.server_utils import get_tripcode
 
 
@@ -78,7 +79,14 @@ def get_thread(thread_id):
 @app_limited.route('/threads', methods=['POST'])
 def create_thread():
     logger.info("Creating a new thread...")
-    new_thread = request.get_json()
+    data = request.get_json()
+    new_thread = data.get('thread')
+    hcaptcha_token = data.get('hcaptcha_token')
+
+    if not hcaptcha_token or not verify_hcaptcha(hcaptcha_token, request.remote_addr):
+        logger.error("hCaptcha verification failed.")
+        return jsonify({'error': 'hCaptcha verification failed'}), 400
+
     with sqlite3.connect(server_configs['db_path']) as conn:
         cursor = conn.cursor()
         cursor.execute('INSERT INTO threads (title, author, date, description, fever) VALUES (?, ?, ?, ?, ?)',

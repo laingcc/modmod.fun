@@ -69,7 +69,7 @@ export class DashboardComponent extends Destroyable implements OnInit {
   }
 
   onComment(comment: ThreadComment){
-    this.threadService.addComment(this.id, comment).subscribe(response => {
+    this.threadService.addComment(this.id, comment, comment.hcaptcha_token).subscribe(response => {
       console.log('Comment added:', response);
       this.threadService.getThread(this.id).pipe(
         take(1)

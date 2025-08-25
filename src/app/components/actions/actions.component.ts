@@ -41,7 +41,8 @@ export class ActionsComponent {
           date: new Date(),
           id: 0, // Will be set by backend
           feverCount: 0,
-          images: imageUrls
+          images: imageUrls,
+          hcaptcha_token: result.hcaptcha_token
         };
         this.Comment.emit(comment);
       }
