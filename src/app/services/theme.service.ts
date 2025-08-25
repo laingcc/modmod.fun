@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
-export type Theme = {name:string, value:string}
+export type Theme = { name: string; value: string };
 
 @Injectable({
   providedIn: 'root',
-
 })
 export class ThemeService {
   private readonly THEME_KEY = 'selectedTheme';
@@ -27,6 +26,6 @@ export class ThemeService {
   }
 
   getSavedTheme(): string {
-    return localStorage.getItem(this.THEME_KEY)|| this.themes[0].value;
+    return localStorage.getItem(this.THEME_KEY) || this.themes[0].value;
   }
 }

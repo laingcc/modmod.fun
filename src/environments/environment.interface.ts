@@ -1,4 +1,3 @@
-
 export interface Environment {
-  host: string
+  host: string;
 }

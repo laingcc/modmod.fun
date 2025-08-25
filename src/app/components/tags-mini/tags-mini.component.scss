@@ -1,5 +1,5 @@
-.tags-container{
-  display:flex;
+.tags-container {
+  display: flex;
   align-items: flex-end;
   flex-wrap: wrap;
   margin-top: -12px;
@@ -17,9 +17,9 @@
   }
 
   &::before {
-    content:'[';
+    content: '[';
   }
   &::after {
-    content:']';
+    content: ']';
   }
 }

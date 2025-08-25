@@ -1,8 +1,13 @@
 <div class="page-container">
   <div class="left-column-layout">
-    <div class="active-project" *ngIf="(threadData|async) as thread">
+    <div class="active-project" *ngIf="threadData | async as thread">
       <div class="project-image" (click)="launchGallery()">
-        <img ngSrc="{{imageUrl}}" alt="Project Image" width="500" height="300">
+        <img
+          ngSrc="{{ imageUrl }}"
+          alt="Project Image"
+          width="500"
+          height="300"
+        />
       </div>
       <div class="dashboard-thumbnails" *ngIf="thread.imageIds.length > 1">
         <img
@@ -17,26 +22,20 @@
         />
       </div>
       <h3>{{ thread?.title }}</h3>
-      <app-tripcode-pill
-      [author] = "thread.author"
-      ></app-tripcode-pill>
+      <app-tripcode-pill [author]="thread.author"></app-tripcode-pill>
       <div class="project-management">
         <p><span class="action" (click)="edit()"> [Edit 🧰]</span></p>
       </div>
     </div>
     <div class="active-project project-management">
-      <app-tags-mini
-        [threadId]="id"
-        [refresh$]="refresh$"
-      >
-      </app-tags-mini>
+      <app-tags-mini [threadId]="id" [refresh$]="refresh$"> </app-tags-mini>
       <p><span class="action" (click)="onAddTag()">[Add Tag 📝]</span></p>
     </div>
   </div>
   <div class="main-column-layout">
     <app-thread
       [threadData]="threadData"
-      [threadId] = "id"
+      [threadId]="id"
       (Comment)="onComment($event)"
     ></app-thread>
   </div>

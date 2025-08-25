@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import {Theme, ThemeService} from '../../services/theme.service';
-import {FormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import { Theme, ThemeService } from '../../services/theme.service';
+import { FormsModule } from '@angular/forms';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -16,13 +16,16 @@ export class HeaderComponent {
   activeLink: string = '';
   width = 0;
 
-  themes: Theme[]
+  themes: Theme[];
 
-  theme:string;
+  theme: string;
 
-  constructor(private router: Router, public themeService: ThemeService) {
+  constructor(
+    private router: Router,
+    public themeService: ThemeService
+  ) {
     this.themes = this.themeService.themes;
-    this.theme = this.themeService.getSavedTheme()
+    this.theme = this.themeService.getSavedTheme();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activeLink = event.urlAfterRedirects.split(';')[0];
@@ -43,14 +46,12 @@ export class HeaderComponent {
       ? ActiveElement.getBoundingClientRect().x + ActiveElement.clientWidth / 2
       : 200;
 
-    (document.querySelector('.header-container') as HTMLElement)?.style.setProperty(
-      '--active-width',
-      `${this.width - 100}px`
-    );
+    (
+      document.querySelector('.header-container') as HTMLElement
+    )?.style.setProperty('--active-width', `${this.width - 100}px`);
   }
 
   switchTheme(): void {
     this.themeService.setTheme(this.theme);
   }
 }
-

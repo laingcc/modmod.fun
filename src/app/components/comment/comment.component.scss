@@ -7,7 +7,9 @@
     gap: 10px;
     padding-top: 5px;
 
-    .text-content { flex: 1; }
+    .text-content {
+      flex: 1;
+    }
   }
 
   .content-container {
@@ -43,11 +45,17 @@
         z-index: 1;
         font-size: 1rem;
         border-radius: 50%;
-        &:hover { background-color: rgba(0, 0, 0, 0.8); }
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
       }
 
-      .prev { left: 5px; }
-      .next { right: 5px; }
+      .prev {
+        left: 5px;
+      }
+      .next {
+        right: 5px;
+      }
     }
 
     .image-indicator {
@@ -78,14 +86,19 @@
     gap: 10px;
   }
 
-  .number, .datestamp { font-size: 0.8rem; }
+  .number,
+  .datestamp {
+    font-size: 0.8rem;
+  }
   .quote-number {
     margin-left: 10px;
     color: gray;
     font-size: 0.9rem;
     cursor: pointer;
     text-decoration: underline;
-    &:hover { color: blue; }
+    &:hover {
+      color: blue;
+    }
   }
 }
 
@@ -118,6 +131,9 @@
       align-items: flex-start;
     }
 
-    .header-details { flex-wrap: wrap; margin-top: 10px; }
+    .header-details {
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
   }
 }

@@ -6,27 +6,27 @@
   }
 }
 
-.modal-content{
-  display:flex;
-  flex-direction:row;
+.modal-content {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   padding: 10px;
   width: 50vw;
   height: 50vh;
 
-  .editor-content{
+  .editor-content {
     flex: 1 1 0;
-    display:flex;
+    display: flex;
     flex-direction: column;
-    form{
-      display:flex;
+    form {
+      display: flex;
       flex-direction: column;
       flex: 1 1 0;
 
-      .editor-description{
+      .editor-description {
         flex: 1 1 0;
 
-        textarea{
+        textarea {
           height: 100%;
         }
       }
@@ -39,7 +39,7 @@
     margin: 0 10px;
   }
 
-  .editor-preview{
+  .editor-preview {
     flex: 1 1 0;
     min-width: 30%;
     overflow: auto;
@@ -94,12 +94,12 @@
   }
 }
 
-.modal{
-  display:flex;
-  flex-direction:column;
+.modal {
+  display: flex;
+  flex-direction: column;
 
-  .modal-submit{
-    display:flex;
+  .modal-submit {
+    display: flex;
     justify-content: flex-end;
     padding: 10px;
   }

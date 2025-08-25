@@ -3,30 +3,29 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
 
-  .project-container{
+  .project-container {
     max-width: min-content;
     padding: 26px;
 
-    .project-name{
+    .project-name {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
       max-width: 250px;
     }
 
-    app-tripcode-pill{
+    app-tripcode-pill {
       margin-left: -5px;
     }
 
-    .project-footer{
+    .project-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
       gap: 10px;
-      font-size:12px;
+      font-size: 12px;
     }
-
   }
 
   .project-container:hover {
@@ -35,32 +34,31 @@
     box-shadow: #202020 0px 1px 2px;
   }
 
-
   .project {
     margin: 25px;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
   }
 
-  .project-image{
+  .project-image {
     height: 150px;
     width: 250px;
     border: 1px solid black;
   }
 }
 
-.add-project-bar{
+.add-project-bar {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid black;
   margin: 20px;
 
-  p:hover{
+  p:hover {
     text-decoration: underline;
-    cursor: pointer
+    cursor: pointer;
   }
 }
 

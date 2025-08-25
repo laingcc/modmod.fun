@@ -19,33 +19,36 @@ Welcome to `modmod.fun`, a collaborative platform for sharing and discussing pro
 ### Running the Development Server
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-repo/modmod.fun.git
    cd modmod.fun
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
-3. Start the  frontend development server:
+3. Start the frontend development server:
    ```bash
    ng serve
    ```
-   
 4. Start the backend server:
+
    ```bash
    gunicorn -b 0.0.0.0:5000 'server:app'
    ```
 
-4. Open your browser and navigate to `http://localhost:4200/`.
+5. Open your browser and navigate to `http://localhost:4200/`.
 
 The application will automatically reload if you make changes to the source files.
 
 ## File Structure
 
 The project follows a modular structure for scalability and maintainability:
+
 ```
 src/
 ├── app/
@@ -62,6 +65,7 @@ src/
 ## Contributing
 
 We welcome contributions! To get started:
+
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
 3. Submit a pull request with a detailed description of your changes.

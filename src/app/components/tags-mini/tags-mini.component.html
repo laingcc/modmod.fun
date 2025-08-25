@@ -1,4 +1,9 @@
 <div *ngIf="loading">Loading tags...</div>
 <div *ngIf="!loading && tags.length > 0" class="tags-container">
-  <span *ngFor="let tag of tags" class="tag" (click)="navigateToTagFilter(tag.name, $event)">{{ tag.name }}</span>
+  <span
+    *ngFor="let tag of tags"
+    class="tag"
+    (click)="navigateToTagFilter(tag.name, $event)"
+    >{{ tag.name }}</span
+  >
 </div>

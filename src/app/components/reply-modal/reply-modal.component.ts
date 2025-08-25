@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
-import { MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import { MatDialogRef } from '@angular/material/dialog';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { generateRandomString } from '../../utils/utils'; // Import the function
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reply-modal',
   standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule
-  ],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './reply-modal.component.html',
-  styleUrl: './reply-modal.component.scss'
+  styleUrl: './reply-modal.component.scss',
 })
 export class ReplyModalComponent {
   public form: FormGroup;
@@ -26,7 +28,7 @@ export class ReplyModalComponent {
   ) {
     this.form = this.builder.group({
       content: ['', Validators.required],
-      author: ['', Validators.required]
+      author: ['', Validators.required],
     });
   }
 
@@ -54,7 +56,7 @@ export class ReplyModalComponent {
     this.dialogRef.close({
       content: formValue.content,
       author: formValue.author,
-      files: this.imageFiles
+      files: this.imageFiles,
     });
   }
 }

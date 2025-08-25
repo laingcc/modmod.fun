@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import {RouterLink} from "@angular/router";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-heads-up-banner',
   standalone: true,
-  imports: [
-    RouterLink
-  ],
+  imports: [RouterLink],
   templateUrl: './heads-up-banner.component.html',
-  styleUrl: './heads-up-banner.component.scss'
+  styleUrl: './heads-up-banner.component.scss',
 })
-export class HeadsUpBannerComponent {
-
-}
+export class HeadsUpBannerComponent {}

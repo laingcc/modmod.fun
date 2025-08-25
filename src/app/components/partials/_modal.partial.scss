@@ -27,7 +27,9 @@ button {
   padding: 10px 20px;
 }
 
-textarea, input[type="text"], button {
+textarea,
+input[type='text'],
+button {
   background-color: var(--color-toolbar-bg);
   color: var(--color-fg);
   border: 1px solid var(--color-toolbar-border);

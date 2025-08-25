@@ -8,10 +8,9 @@ describe('TripcodeFaqComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TripcodeFaqComponent]
-    })
-    .compileComponents();
-    
+      imports: [TripcodeFaqComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(TripcodeFaqComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

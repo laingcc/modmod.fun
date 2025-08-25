@@ -1,12 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
   font-family: 'Funnel Sans';
-  src: url('assets/fonts/FunnelSans/FunnelSans-VariableFont_wght.ttf') format('truetype');
+  src: url('assets/fonts/FunnelSans/FunnelSans-VariableFont_wght.ttf')
+    format('truetype');
   font-weight: normal;
   font-style: normal;
 }
-html, body { height: 100%; }
-body { margin: 0; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
 
 body {
   &.terminal {
@@ -100,5 +106,4 @@ body {
   a {
     color: var(--color-accent);
   }
-
 }
