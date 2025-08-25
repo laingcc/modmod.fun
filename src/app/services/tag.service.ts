@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { EnvironmentService } from "../../environments/environment.service";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { EnvironmentService } from '../../environments/environment.service';
+import { Observable } from 'rxjs';
 
 export type Tag = {
   id: number;
@@ -15,7 +15,7 @@ export type ThreadTag = {
 };
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class TagService {
   constructor(
@@ -28,30 +28,47 @@ export class TagService {
   }
 
   getTag(tagId: number): Observable<Tag> {
-    return this.http.get<Tag>(`${this.environmentService.apiHost}/tags/${tagId}`);
+    return this.http.get<Tag>(
+      `${this.environmentService.apiHost}/tags/${tagId}`
+    );
   }
 
   createTag(tag: { name: string; threadIds: number[] }): Observable<Tag> {
     return this.http.post<Tag>(`${this.environmentService.apiHost}/tags`, tag);
   }
 
-  updateTag(tagId: number, tag: { name: string; threadIds: number[] }): Observable<Tag> {
-    return this.http.put<Tag>(`${this.environmentService.apiHost}/tags/${tagId}`, tag);
+  updateTag(
+    tagId: number,
+    tag: { name: string; threadIds: number[] }
+  ): Observable<Tag> {
+    return this.http.put<Tag>(
+      `${this.environmentService.apiHost}/tags/${tagId}`,
+      tag
+    );
   }
 
   deleteTag(tagId: number): Observable<void> {
-    return this.http.delete<void>(`${this.environmentService.apiHost}/tags/${tagId}`);
+    return this.http.delete<void>(
+      `${this.environmentService.apiHost}/tags/${tagId}`
+    );
   }
 
   getThreadTags(threadId: number): Observable<ThreadTag[]> {
-    return this.http.get<ThreadTag[]>(`${this.environmentService.apiHost}/threads/${threadId}/tags`);
+    return this.http.get<ThreadTag[]>(
+      `${this.environmentService.apiHost}/threads/${threadId}/tags`
+    );
   }
 
   addTagToThread(threadId: number, name: string): Observable<ThreadTag> {
-    return this.http.post<ThreadTag>(`${this.environmentService.apiHost}/threads/${threadId}/tags`, { name });
+    return this.http.post<ThreadTag>(
+      `${this.environmentService.apiHost}/threads/${threadId}/tags`,
+      { name }
+    );
   }
 
   removeTagFromThread(threadId: number, tagId: number): Observable<void> {
-    return this.http.delete<void>(`${this.environmentService.apiHost}/threads/${threadId}/tags/${tagId}`);
+    return this.http.delete<void>(
+      `${this.environmentService.apiHost}/threads/${threadId}/tags/${tagId}`
+    );
   }
 }

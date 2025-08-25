@@ -1,16 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-image-gallery-modal',
   templateUrl: './image-gallery-modal.component.html',
   styleUrls: ['./image-gallery-modal.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-  ]
+  imports: [CommonModule],
 })
 export class ImageGalleryModalComponent {
   imageIds: number[] = [];
@@ -20,7 +18,8 @@ export class ImageGalleryModalComponent {
 
   constructor(
     private imageService: ImageService,
-    @Inject(MAT_DIALOG_DATA) public data: { imageIds: number[], initialIndex?: number },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { imageIds: number[]; initialIndex?: number },
     private dialogRef: MatDialogRef<ImageGalleryModalComponent>
   ) {
     this.imageIds = data.imageIds || [];
@@ -29,8 +28,9 @@ export class ImageGalleryModalComponent {
   }
 
   loadImages() {
-    this.imageUrls = this.imageIds.map(id =>
-      `${this.imageService['environmentService'].apiHost}/images/${id}?full_res=true`
+    this.imageUrls = this.imageIds.map(
+      (id) =>
+        `${this.imageService['environmentService'].apiHost}/images/${id}?full_res=true`
     );
   }
 

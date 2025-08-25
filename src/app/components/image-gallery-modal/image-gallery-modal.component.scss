@@ -1,13 +1,17 @@
 .gallery-modal-backdrop {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
   z-index: 1000;
 }
 
 .gallery-modal {
   position: fixed;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
   padding: 24px 24px 80px 24px;
@@ -46,7 +50,7 @@
   max-width: 90vw;
   max-height: 70vh;
   margin: 0 16px;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   background: #111;
   object-fit: contain;
 }
@@ -65,13 +69,13 @@
     border 0.2s,
     color 0.2s,
     box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 
   &:hover:enabled {
     background: var(--color-accent, #ff007c);
     color: var(--color-bg, #0b0b0b);
     border-color: var(--color-accent, #ff007c);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   }
   &:disabled {
     opacity: 0.3;

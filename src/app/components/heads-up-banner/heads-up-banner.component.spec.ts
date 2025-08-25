@@ -8,10 +8,9 @@ describe('HeadsUpBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeadsUpBannerComponent]
-    })
-    .compileComponents();
-    
+      imports: [HeadsUpBannerComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(HeadsUpBannerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

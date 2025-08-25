@@ -1,11 +1,16 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Thread} from "../../services/thread.service";
-import {CommentComponent, ThreadComment} from "../comment/comment.component";
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {Observable} from "rxjs";
-import {ActionsComponent} from "../actions/actions.component";
-import {MarkdownComponent} from "ngx-markdown";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Thread } from '../../services/thread.service';
+import { CommentComponent, ThreadComment } from '../comment/comment.component';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { Observable, tap } from 'rxjs';
+import { ActionsComponent } from '../actions/actions.component';
+import { MarkdownComponent } from 'ngx-markdown';
 import { FormsModule } from '@angular/forms';
+import {
+  getAllDescendants,
+  getChildComments,
+  getRootComments,
+} from '../../utils/comment.utils';
 
 @Component({
   selector: 'app-thread',
@@ -17,11 +22,11 @@ import { FormsModule } from '@angular/forms';
     ActionsComponent,
     MarkdownComponent,
     NgIf,
-    FormsModule // Add FormsModule for two-way binding
+    FormsModule, // Add FormsModule for two-way binding
   ],
-  providers:[],
+  providers: [],
   templateUrl: './thread.component.html',
-  styleUrl: './thread.component.scss'
+  styleUrl: './thread.component.scss',
 })
 export class ThreadComponent {
   @Input() threadData: Observable<Thread>;
@@ -35,7 +40,7 @@ export class ThreadComponent {
   constructor() {}
 
   ngOnChanges(): void {
-    this.threadData?.subscribe(thread => {
+    this.threadData?.subscribe((thread) => {
       this.filteredComments = this.getRootComments(thread.comments);
     });
   }
@@ -45,10 +50,10 @@ export class ThreadComponent {
   }
 
   filterComments(): void {
-    this.threadData?.subscribe(thread => {
+    this.threadData?.subscribe((thread) => {
       if (this.onlyOp) {
         this.filteredComments = this.getRootComments(thread.comments).filter(
-          comment => comment.author === thread.author
+          (comment) => comment.author === thread.author
         );
       } else {
         this.filteredComments = this.getRootComments(thread.comments);
@@ -57,25 +62,39 @@ export class ThreadComponent {
   }
 
   getRootComments(comments: ThreadComment[]): ThreadComment[] {
-    return comments.filter(comment => !comment.parentId).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return comments
+      .filter((comment) => !comment.parentId)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 
-  getChildComments(comments: ThreadComment[], parentId: number): ThreadComment[] {
-    return comments.filter(comment => comment.parentId === parentId).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  getChildComments(
+    comments: ThreadComment[],
+    parentId: number
+  ): ThreadComment[] {
+    return comments
+      .filter((comment) => comment.parentId === parentId)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 
-  getAllDescendants(comments: ThreadComment[], parentId: number): ThreadComment[] {
+  getAllDescendants(
+    comments: ThreadComment[],
+    parentId: number
+  ): ThreadComment[] {
     const descendants: ThreadComment[] = [];
-    const stack = comments.filter(comment => comment.parentId === parentId);
+    const stack = comments.filter((comment) => comment.parentId === parentId);
 
     while (stack.length > 0) {
       const current = stack.pop();
       if (current) {
         descendants.push(current);
-        stack.push(...comments.filter(comment => comment.parentId === current.id));
+        stack.push(
+          ...comments.filter((comment) => comment.parentId === current.id)
+        );
       }
     }
 
-    return descendants.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return descendants.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from "./components/header/header.component";
+import { HeaderComponent } from './components/header/header.component';
 import { ThemeService } from './services/theme.service';
 
 @Component({
@@ -9,13 +9,16 @@ import { ThemeService } from './services/theme.service';
   standalone: true,
   imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'fever';
 
-  constructor(private router: Router, private themeService: ThemeService) {
-    this.router.events.subscribe(event => {
+  constructor(
+    private router: Router,
+    private themeService: ThemeService
+  ) {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.playNavigationSound();
       }

@@ -12,7 +12,7 @@ h3 {
   max-height: 100%;
   border-radius: 8px;
   background: var(--color-bg);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   padding: 1rem;
   min-height: 0;
   overflow: hidden;
@@ -43,7 +43,7 @@ h3 {
   width: 100%;
   box-sizing: border-box;
 
-  input[type="text"] {
+  input[type='text'] {
     flex: 1 1 0%;
     min-width: 0;
     padding: 0.5rem 0.75rem;

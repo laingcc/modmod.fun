@@ -1,14 +1,14 @@
 .thread-container {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 0;
 
-  .thread-item{
+  .thread-item {
     padding: 20px;
     border: 1px solid var(--color-toolbar-bg);
     margin: 10px;
   }
-  .thread-description{
+  .thread-description {
     padding-top: 2px;
 
     .footer {
@@ -28,8 +28,7 @@
     }
   }
 
-  .comment{
-
+  .comment {
     &.child-comment {
     }
 

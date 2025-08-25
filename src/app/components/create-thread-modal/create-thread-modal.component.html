@@ -3,36 +3,79 @@
     <div class="editor-content">
       <form (ngSubmit)="onSubmit()" class="modal-form" #form>
         <div>
-          <input type="text" id="title" [(ngModel)]="thread.title" name="title" placeholder="Title" required>
+          <input
+            type="text"
+            id="title"
+            [(ngModel)]="thread.title"
+            name="title"
+            placeholder="Title"
+            required
+          />
         </div>
         <div class="editor-description">
-          <textarea id="description" [(ngModel)]="thread.description" name="description" placeholder="Your Project Details" required></textarea>
+          <textarea
+            id="description"
+            [(ngModel)]="thread.description"
+            name="description"
+            placeholder="Your Project Details"
+            required
+          ></textarea>
         </div>
         <div>
-          <input type="text" id="author" [(ngModel)]="thread.author" name="author" placeholder="Tripcode Password (Optional)">
+          <input
+            type="text"
+            id="author"
+            [(ngModel)]="thread.author"
+            name="author"
+            placeholder="Tripcode Password (Optional)"
+          />
         </div>
         <div>
-          <input type="file" id="images" (change)="onFilesSelected($event)" accept="image/*" multiple>
+          <input
+            type="file"
+            id="images"
+            (change)="onFilesSelected($event)"
+            accept="image/*"
+            multiple
+          />
         </div>
         <div class="image-preview">
-          <div class="image-container" *ngFor="let image of selectedFiles; let i = index">
-            <img [src]="image.preview" class="preview-image" alt="preview">
-            <button type="button" class="remove-image" (click)="removeImage(i)">x</button>
+          <div
+            class="image-container"
+            *ngFor="let image of selectedFiles; let i = index"
+          >
+            <img [src]="image.preview" class="preview-image" alt="preview" />
+            <button type="button" class="remove-image" (click)="removeImage(i)">
+              x
+            </button>
           </div>
         </div>
       </form>
       <div>
         <label for="preview">Show Post Preview</label>
-        <input type="checkbox" id="preview" #preview checked="checked" (change)="onCheck()">
+        <input
+          type="checkbox"
+          id="preview"
+          #preview
+          checked="checked"
+          (change)="onCheck()"
+        />
       </div>
     </div>
     <div class="divider"></div>
     <div class="editor-preview" *ngIf="preview.checked">
       <div class="preview-title">
-        <h2>{{ thread.title || 'Your amazing thread title will appear here!' }}</h2>
+        <h2>
+          {{ thread.title || 'Your amazing thread title will appear here!' }}
+        </h2>
       </div>
       <div class="thread-item thread-description">
-        <markdown [data]="thread.description || 'Start typing your project details, and they will magically appear here!'"></markdown>
+        <markdown
+          [data]="
+            thread.description ||
+            'Start typing your project details, and they will magically appear here!'
+          "
+        ></markdown>
       </div>
     </div>
   </div>

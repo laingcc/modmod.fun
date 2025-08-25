@@ -8,10 +8,9 @@ describe('CreateThreadModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateThreadModalComponent]
-    })
-    .compileComponents();
-    
+      imports: [CreateThreadModalComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CreateThreadModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

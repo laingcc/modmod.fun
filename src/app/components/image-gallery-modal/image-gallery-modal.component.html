@@ -2,7 +2,13 @@
 <div class="gallery-modal" *ngIf="show">
   <button class="close-btn" (click)="close()">×</button>
   <div class="gallery-content">
-    <button class="nav-btn left" (click)="prevImage()" [disabled]="currentIndex === 0">&#8592;</button>
+    <button
+      class="nav-btn left"
+      (click)="prevImage()"
+      [disabled]="currentIndex === 0"
+    >
+      &#8592;
+    </button>
     <img
       class="main-image"
       [src]="imageUrls[currentIndex]"
@@ -10,7 +16,13 @@
       *ngIf="imageUrls.length"
       (click)="$event.stopPropagation()"
     />
-    <button class="nav-btn right" (click)="nextImage()" [disabled]="currentIndex === imageUrls.length - 1">&#8594;</button>
+    <button
+      class="nav-btn right"
+      (click)="nextImage()"
+      [disabled]="currentIndex === imageUrls.length - 1"
+    >
+      &#8594;
+    </button>
   </div>
   <div class="gallery-thumbnails">
     <img

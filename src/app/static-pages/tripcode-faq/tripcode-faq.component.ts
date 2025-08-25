@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './tripcode-faq.component.html',
-  styleUrl: './tripcode-faq.component.scss'
+  styleUrl: './tripcode-faq.component.scss',
 })
-export class TripcodeFaqComponent {
-
-}
+export class TripcodeFaqComponent {}

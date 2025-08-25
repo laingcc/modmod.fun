@@ -7,7 +7,7 @@ describe('CommunityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommunityComponent]
+      imports: [CommunityComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CommunityComponent);
@@ -21,6 +21,8 @@ describe('CommunityComponent', () => {
 
   it('should display "Hello, World!"', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, World!');
+    expect(compiled.querySelector('h1')?.textContent).toContain(
+      'Hello, World!'
+    );
   });
 });

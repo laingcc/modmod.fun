@@ -6,15 +6,21 @@
         [author]="Comment.author"
       ></app-tripcode-pill>
       <div class="header-details">
-        <span class="number">No.{{Comment.id}}</span>
-        <span *ngIf="Comment.feverCount > 0" class="fever-count">🔥 x {{Comment.feverCount}}</span>
-        <span class="datestamp">{{ Comment.date | date: 'dd/MM/YY-HH:mm a' }}</span>
+        <span class="number">No.{{ Comment.id }}</span>
+        <span *ngIf="Comment.feverCount > 0" class="fever-count"
+          >🔥 x {{ Comment.feverCount }}</span
+        >
+        <span class="datestamp">{{
+          Comment.date | date: 'dd/MM/YY-HH:mm a'
+        }}</span>
       </div>
     </div>
     <span
       *ngIf="quoteNumber"
       class="quote-number"
-      (click)="scrollToComment(quoteNumber)">>> {{quoteNumber}}</span>
+      (click)="scrollToComment(quoteNumber)"
+      >>> {{ quoteNumber }}</span
+    >
   </div>
   <div class="content-container">
     <div class="comment-gallery" *ngIf="Comment.images?.length">
@@ -22,7 +28,10 @@
         <button
           class="carousel-control prev"
           *ngIf="Comment.images!.length > 1"
-          (click)="prevImage()">&#8249;</button>
+          (click)="prevImage()"
+        >
+          &#8249;
+        </button>
         <img
           [src]="imageUrl(Comment.images![currentImageIndex])"
           alt="Comment image"
@@ -32,7 +41,10 @@
         <button
           class="carousel-control next"
           *ngIf="Comment.images!.length > 1"
-          (click)="nextImage()">&#8250;</button>
+          (click)="nextImage()"
+        >
+          &#8250;
+        </button>
       </div>
       <div class="image-indicator">
         Image {{ currentImageIndex + 1 }} of {{ Comment.images!.length }}
@@ -40,16 +52,20 @@
     </div>
     <div class="comment-content">
       <div class="text-content">
-        <markdown
-          [data]="Comment.content"
-        ></markdown>
+        <markdown [data]="Comment.content"></markdown>
       </div>
     </div>
   </div>
-  <div class="image-modal" *ngIf="isImageModalOpen" (click)="toggleImageModal()">
-    <img [src]="imageUrl(Comment.images![currentImageIndex], true)" alt="Enlarged image" class="modal-image" />
+  <div
+    class="image-modal"
+    *ngIf="isImageModalOpen"
+    (click)="toggleImageModal()"
+  >
+    <img
+      [src]="imageUrl(Comment.images![currentImageIndex], true)"
+      alt="Enlarged image"
+      class="modal-image"
+    />
   </div>
-  <app-actions
-    (Comment)="onComment($event)"
-  ></app-actions>
+  <app-actions (Comment)="onComment($event)"></app-actions>
 </div>

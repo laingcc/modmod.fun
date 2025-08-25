@@ -3,9 +3,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {provideHttpClient} from "@angular/common/http";
-import {EnvironmentService} from "../environments/environment.service";
-import {MarkdownModule, MarkdownService, provideMarkdown} from "ngx-markdown";
+import { provideHttpClient } from '@angular/common/http';
+import { EnvironmentService } from '../environments/environment.service';
+import { MarkdownModule, MarkdownService, provideMarkdown } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     EnvironmentService,
-    provideMarkdown()
-  ]
+    provideMarkdown(),
+  ],
 };

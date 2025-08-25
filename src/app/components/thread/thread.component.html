@@ -1,14 +1,14 @@
-<div class="thread-container" *ngIf="(threadData | async) as thread">
+<div class="thread-container" *ngIf="threadData | async as thread">
   <div class="thread-item thread-description">
-    <markdown
-      [data]="thread.description"
-    ></markdown>
-    <app-actions
-      (Comment)="onComment($event)"
-    ></app-actions>
+    <markdown [data]="thread.description"></markdown>
+    <app-actions (Comment)="onComment($event)"></app-actions>
     <div class="footer">
       <label>
-        <input type="checkbox" [(ngModel)]="onlyOp" (change)="filterComments()" />
+        <input
+          type="checkbox"
+          [(ngModel)]="onlyOp"
+          (change)="filterComments(thread.author)"
+        />
         Only OP
       </label>
     </div>
@@ -20,16 +20,26 @@
         [isOp]="comment.author === thread.author"
         (parentComment)="onComment($event)"
       ></app-comment>
-      <ng-container *ngFor="let child of getChildComments(thread.comments, comment.id)">
-        <div class="thread-item comment child-comment" [id]="'comment-' + child.id">
+      <ng-container
+        *ngFor="let child of getChildComments(allComments, comment.id)"
+      >
+        <div
+          class="thread-item comment child-comment"
+          [id]="'comment-' + child.id"
+        >
           <app-comment
             [Comment]="child"
             [isOp]="child.author === thread.author"
             [quoteNumber]="comment.id"
             (parentComment)="onComment($event)"
           ></app-comment>
-          <ng-container *ngFor="let descendant of getAllDescendants(thread.comments, child.id)">
-            <div class="thread-item comment same-line-comment" [id]="'comment-' + descendant.id">
+          <ng-container
+            *ngFor="let descendant of getAllDescendants(allComments, child.id)"
+          >
+            <div
+              class="thread-item comment same-line-comment"
+              [id]="'comment-' + descendant.id"
+            >
               <app-comment
                 [Comment]="descendant"
                 [isOp]="descendant.author === thread.author"

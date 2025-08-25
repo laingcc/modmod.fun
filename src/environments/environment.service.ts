@@ -1,10 +1,9 @@
-import {Injectable} from "@angular/core";
-import {environment} from "./environment";
+import { Injectable } from '@angular/core';
+import { environment } from './environment';
 
 @Injectable()
 export class EnvironmentService {
-
-  get apiHost(){
+  get apiHost() {
     return environment.host;
   }
 }
